@@ -4,6 +4,7 @@ export type Currency = "KES" | "TZS" | "UGX" | "RWF";
 export type Country = "Kenya" | "Tanzania" | "Uganda" | "Rwanda";
 export type TenantTheme = "neutral" | "petropal";
 export type ShiftStatus = "OPEN" | "LOCKED" | "CLOSED";
+export type DipstickType = "wooden" | "aluminium";
 export type InvestigationCause =
   | "PUMP_CALIBRATION"
   | "DRIVE_OFF"
@@ -38,6 +39,7 @@ export interface DipReading {
   waterCm: number | null;
   waterLitres: number | null;
   kind: "DIP" | "PRE_DROP" | "POST_DROP" | "CLOSING";
+  dipstickType: DipstickType;
   role: Role;
 }
 

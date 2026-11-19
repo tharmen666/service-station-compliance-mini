@@ -1,9 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { AlertTriangle } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { translate, type TKey } from "@/lib/i18n";
-import type { Lang } from "@/lib/types";
+import type { DipstickType, Lang } from "@/lib/types";
 
 export const FOOTER_TEXT = "Powered by Desigan Tharmen | G.E.A.R. Compliance Architecture";
 
@@ -32,14 +33,55 @@ export function Card({ title, children, className = "" }: { title?: string; chil
   );
 }
 
-export function Alert({ tone, children }: { tone: "danger" | "ok" | "info"; children: ReactNode }) {
+export function Alert({ tone, children }: { tone: "danger" | "warn" | "ok" | "info"; children: ReactNode }) {
   const cls =
     tone === "danger"
       ? "border-red-700 bg-red-50 text-red-900"
+      : tone === "warn"
+      ? "border-amber-600 bg-amber-50 text-amber-950"
       : tone === "ok"
       ? "border-green-700 bg-green-50 text-green-900"
       : "border-slate-500 bg-white text-ink";
   return <div className={`rounded-xl border-2 p-3 text-lg font-semibold ${cls}`}>{children}</div>;
+}
+
+export function DipstickField({
+  value,
+  onChange,
+  disabled = false,
+}: {
+  value: DipstickType;
+  onChange: (v: DipstickType) => void;
+  disabled?: boolean;
+}) {
+  const { t } = useT();
+  return (
+    <div className="space-y-2">
+      <label className="block">
+        <span className="label">{t("dipstickMaterial")}</span>
+        <select
+          className="field"
+          value={value}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.value as DipstickType)}
+        >
+          <option value="wooden">{t("dipstickWooden")}</option>
+          <option value="aluminium">{t("dipstickAluminium")}</option>
+        </select>
+      </label>
+      {value === "aluminium" ? (
+        <Alert tone="warn">
+          <span className="flex items-start gap-2 text-base">
+            <AlertTriangle size={22} aria-hidden="true" className="mt-0.5 shrink-0 text-amber-700" />
+            <span>
+              <strong className="block">{t("transitionAdvisoryTitle")}</strong>
+              <span className="font-normal">{t("transitionAdvisoryBody")}</span>
+            </span>
+          </span>
+        </Alert>
+      ) : null}
+    </div>
+  );
 }
 
 export function NumberField({

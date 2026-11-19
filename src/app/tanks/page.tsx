@@ -5,8 +5,8 @@ import { AlertTriangle, Save } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { litresFromCm, maxCm, parseChart, geometryCapacityL } from "@/lib/calc";
 import { appendLedger } from "@/lib/ledger";
-import { Alert, Card, NumberField, PageHeader, fmt, useT } from "@/components/ui";
-import type { Calibration, Tank } from "@/lib/types";
+import { Alert, Card, DipstickField, NumberField, PageHeader, fmt, useT } from "@/components/ui";
+import type { Calibration, DipstickType, Tank } from "@/lib/types";
 
 export default function TanksPage() {
   const { state, mutate } = useStore();
@@ -17,6 +17,7 @@ export default function TanksPage() {
 
   const [cm, setCm] = useState<number>(0);
   const [waterCm, setWaterCm] = useState<string>("");
+  const [dipstickType, setDipstickType] = useState<DipstickType>("wooden");
   const [saved, setSaved] = useState<string | null>(null);
 
   const litres = useMemo(() => (tank ? litresFromCm(tank, cm) : 0), [tank, cm]);
@@ -38,14 +39,21 @@ export default function TanksPage() {
       waterCm: waterCm === "" ? null : Number(waterCm),
       waterLitres,
       kind: "DIP" as const,
+      dipstickType,
       role: settings.role,
     };
     mutate((s) => ({
       ...s,
       dips: [...s.dips, reading],
-      ledger: appendLedger(s.ledger, settings.role, "DIP_RECORDED", `${tank.name}: ${cm} cm = ${litres} L`, reading),
+      ledger: appendLedger(
+        s.ledger,
+        settings.role,
+        "DIP_RECORDED",
+        `${tank.name}: ${cm} cm = ${litres} L [${dipstickType}]`,
+        reading
+      ),
     }));
-    setSaved(`${tank.name}: ${fmt(litres)} L`);
+    setSaved(`${tank.name}: ${fmt(litres)} L (${dipstickType})`);
   };
 
   const updateCalibration = (tankPatch: Partial<Tank>) => {
@@ -61,9 +69,9 @@ export default function TanksPage() {
     <div className="space-y-4">
       <PageHeader title={t("tanksTitle")} sub={t("tanksSub")} />
 
-      <Alert tone="danger">
+      <Alert tone="warn">
         <span className="flex items-start gap-2">
-          <AlertTriangle size={24} aria-hidden="true" className="mt-0.5 shrink-0" />
+          <AlertTriangle size={24} aria-hidden="true" className="mt-0.5 shrink-0 text-amber-700" />
           <span>
             <strong>{t("safetyTitle")}</strong>
             <br />
@@ -84,6 +92,8 @@ export default function TanksPage() {
               ))}
             </select>
           </label>
+
+          <DipstickField value={dipstickType} onChange={setDipstickType} />
 
           <NumberField label={t("dipCm")} value={cm} onChange={setCm} step="0.1" hint={`0 – ${limit} cm`} />
           {outOfRange ? <Alert tone="danger">0 – {limit} cm</Alert> : null}

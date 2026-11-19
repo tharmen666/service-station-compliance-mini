@@ -5,8 +5,8 @@ import { CheckCircle2, Lock, Plus } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { computeShiftRecon, litresFromCm } from "@/lib/calc";
 import { appendLedger } from "@/lib/ledger";
-import { Alert, Card, NumberField, PageHeader, fmt, useT } from "@/components/ui";
-import type { Delivery, InvestigationCause, Role, Shift } from "@/lib/types";
+import { Alert, Card, DipstickField, NumberField, PageHeader, fmt, useT } from "@/components/ui";
+import type { Delivery, DipstickType, InvestigationCause, Role, Shift } from "@/lib/types";
 
 const CAUSES: InvestigationCause[] = ["PUMP_CALIBRATION", "DRIVE_OFF", "SHORT_DROP", "TANK_LEAK", "CASH_SHORTFALL", "OTHER"];
 const SIGN_ROLES: Role[] = ["Supervisor", "Station Manager"];
@@ -311,6 +311,7 @@ function ClosingDipRow({
   const { mutate, state } = useStore();
   const [cm, setCm] = useState<number>(0);
   const [atg, setAtg] = useState<string>("");
+  const [dipstickType, setDipstickType] = useState<DipstickType>("wooden");
   const litres = litresFromCm(tank, cm);
   const locked = typeof shift.closingL[tankId] === "number";
 
@@ -329,23 +330,31 @@ function ClosingDipRow({
           waterCm: null,
           waterLitres: null,
           kind: "CLOSING",
+          dipstickType,
           role: state.settings.role,
         },
       ],
-      ledger: appendLedger(s.ledger, state.settings.role, "DIP_RECORDED", `${tankName} closing ${cm} cm = ${litres} L`, { tankId, cm, litres, shiftId: shift.id }),
+      ledger: appendLedger(
+        s.ledger,
+        state.settings.role,
+        "DIP_RECORDED",
+        `${tankName} closing ${cm} cm = ${litres} L [${dipstickType}]`,
+        { tankId, cm, litres, dipstickType, shiftId: shift.id }
+      ),
     }));
   };
 
   return (
-    <div className="rounded-xl border-2 border-slate-300 bg-white p-3">
-      <p className="mb-2 font-extrabold">
+    <div className="space-y-2 rounded-xl border-2 border-slate-300 bg-white p-3">
+      <p className="font-extrabold">
         {tankName} · {t("closingL")}: {locked ? `${fmt(shift.closingL[tankId])} L ✓` : `${fmt(litres)} L`}
       </p>
+      <DipstickField value={dipstickType} onChange={setDipstickType} disabled={locked} />
       <div className="grid grid-cols-2 gap-3">
         <NumberField label="Closing dip (cm)" value={cm} step="0.1" onChange={setCm} />
         <NumberField label={t("atgClosing")} value={atg} step="1" onChange={(v) => setAtg(String(v))} />
       </div>
-      <button type="button" className="btn-ghost mt-2 w-full" onClick={lock} disabled={locked}>
+      <button type="button" className="btn-ghost w-full" onClick={lock} disabled={locked}>
         <Lock size={18} aria-hidden="true" />
         {t("recordDip")}
       </button>

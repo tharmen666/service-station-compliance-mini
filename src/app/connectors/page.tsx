@@ -55,10 +55,18 @@ export default function ConnectorsPage() {
 
   const exportTemplate = () => {
     const rows = [
-      ["tank_id", "product", "date", "closing_l", "water_cm", "dip_closing_l"],
+      ["tank_id", "product", "date", "closing_l", "water_cm", "dip_closing_l", "dipstick_type"],
       ...state.tanks.map((tk) => {
         const lastDip = [...state.dips].reverse().find((d) => d.tankId === tk.id);
-        return [tk.id, tk.product, new Date().toISOString().slice(0, 10), "", "", lastDip ? lastDip.litres : ""];
+        return [
+          tk.id,
+          tk.product,
+          new Date().toISOString().slice(0, 10),
+          "",
+          "",
+          lastDip ? lastDip.litres : "",
+          lastDip ? (lastDip.dipstickType ?? "wooden") : "",
+        ];
       }),
     ];
     const body = rows.map((r) => r.map(csvCell).join(",")).join("\n");
