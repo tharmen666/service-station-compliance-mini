@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Neutral industrial palette (default). Tenant themes override these variables. */
+:root,
+:root[data-tenant="neutral"] {
+  --c-primary: 30 41 59;    /* slate-800 / navy */
+  --c-accent: 245 158 11;   /* amber-500 */
+  --c-ink: 15 23 42;        /* slate-900 */
+  --c-muted: 51 65 85;      /* slate-700 (AA on white) */
+  --c-surface: 255 255 255;
+  --c-canvas: 241 245 249;  /* slate-100 */
+  --c-danger: 185 28 28;    /* red-700 */
+  --c-ok: 21 128 61;        /* green-700 */
+}
+
+/* Demo client palette. Shown only in the Tenant Theme Configurator. */
+:root[data-tenant="petropal"] {
+  --c-primary: 6 78 59;     /* emerald-900 */
+  --c-accent: 250 204 21;   /* yellow-400 */
+  --c-ink: 2 44 34;
+  --c-muted: 55 65 81;
+  --c-surface: 255 255 255;
+  --c-canvas: 236 253 245;
+  --c-danger: 185 28 28;
+  --c-ok: 21 128 61;
+}
+
+html,
+body {
+  background: rgb(var(--c-canvas));
+  color: rgb(var(--c-ink));
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  font-size: 1.0625rem;
+}
+
+/* Large touch targets for gloved or wet hands at the pump island. */
+button,
+a.btn,
+select,
+input {
+  min-height: 48px;
+}
+
+.card {
+  @apply rounded-2xl border-2 border-slate-300 bg-surface p-4 shadow-sm;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 font-bold;
+  background: rgb(var(--c-primary));
+  color: #fff;
+}
+
+.btn-accent {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 font-bold;
+  background: rgb(var(--c-accent));
+  color: rgb(var(--c-ink));
+}
+
+.btn-ghost {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 px-4 font-bold;
+  border-color: rgb(var(--c-primary));
+  color: rgb(var(--c-primary));
+  background: rgb(var(--c-surface));
+}
+
+.btn:disabled,
+.btn-accent:disabled {
+  opacity: 0.5;
+}
+
+.field {
+  @apply w-full rounded-xl border-2 border-slate-400 bg-white px-3 py-2 text-lg;
+}
+
+.label {
+  @apply mb-1 block text-base font-bold;
+  color: rgb(var(--c-ink));
+}
+
+.badge-locked {
+  @apply rounded-lg px-3 py-1 text-sm font-extrabold uppercase tracking-wide text-white;
+  background: rgb(var(--c-danger));
+}
+
+.badge-ok {
+  @apply rounded-lg px-3 py-1 text-sm font-extrabold uppercase tracking-wide text-white;
+  background: rgb(var(--c-ok));
+}
+
+.badge-open {
+  @apply rounded-lg px-3 py-1 text-sm font-extrabold uppercase tracking-wide;
+  background: rgb(var(--c-accent));
+  color: rgb(var(--c-ink));
+}
