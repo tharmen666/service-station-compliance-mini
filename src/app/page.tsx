@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { BookOpen } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { computeShiftRecon, geometryCapacityL } from "@/lib/calc";
 import { verifyLedger } from "@/lib/ledger";
@@ -47,7 +48,7 @@ export default function DashboardPage() {
             const capWarn = geo !== null && Math.abs(geo - tank.capacityL) / tank.capacityL > 0.01;
             return (
               <div key={tank.id}>
-                <div className="flex items-baseline justify-between gap-2">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <p className="text-lg font-extrabold">
                     {tank.name} · {tank.product}
                   </p>
@@ -79,6 +80,14 @@ export default function DashboardPage() {
             {t("ledgerBroken")} #{integrity.brokenAt}
           </Alert>
         )}
+      </Card>
+
+      <Card title={t("dashGuideTitle")}>
+        <p className="mb-3 text-base text-muted">{t("dashGuideBody")}</p>
+        <Link href="/guide" className="btn-ghost w-full">
+          <BookOpen size={18} aria-hidden="true" className="shrink-0" />
+          {t("dashGuideCta")}
+        </Link>
       </Card>
 
       <p className="text-sm text-muted">

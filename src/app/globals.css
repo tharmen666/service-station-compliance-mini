@@ -31,6 +31,7 @@ html,
 body {
   background: rgb(var(--c-canvas));
   color: rgb(var(--c-ink));
+  overflow-x: clip;
 }
 
 body {
@@ -41,29 +42,32 @@ body {
 /* Large touch targets for gloved or wet hands at the pump island. */
 button,
 a.btn,
+a.btn-ghost,
+a.btn-accent,
+label.btn-ghost,
 select,
 input {
   min-height: 48px;
 }
 
 .card {
-  @apply rounded-2xl border-2 border-slate-300 bg-surface p-4 shadow-sm;
+  @apply min-w-0 rounded-2xl border-2 border-slate-300 bg-surface p-4 shadow-sm;
 }
 
 .btn {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 font-bold;
+  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-4 py-2 text-center font-bold;
   background: rgb(var(--c-primary));
   color: #fff;
 }
 
 .btn-accent {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 font-bold;
+  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-4 py-2 text-center font-bold;
   background: rgb(var(--c-accent));
   color: rgb(var(--c-ink));
 }
 
 .btn-ghost {
-  @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 px-4 font-bold;
+  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 text-center font-bold;
   border-color: rgb(var(--c-primary));
   color: rgb(var(--c-primary));
   background: rgb(var(--c-surface));
@@ -75,26 +79,26 @@ input {
 }
 
 .field {
-  @apply w-full rounded-xl border-2 border-slate-400 bg-white px-3 py-2 text-lg;
+  @apply w-full min-w-0 max-w-full rounded-xl border-2 border-slate-400 bg-white px-3 py-2 text-base sm:text-lg;
 }
 
 .label {
-  @apply mb-1 block text-base font-bold;
+  @apply mb-1 block text-sm font-bold sm:text-base;
   color: rgb(var(--c-ink));
 }
 
 .badge-locked {
-  @apply rounded-lg px-3 py-1 text-sm font-extrabold uppercase tracking-wide text-white;
+  @apply inline-block max-w-full break-words rounded-lg px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-white sm:text-sm;
   background: rgb(var(--c-danger));
 }
 
 .badge-ok {
-  @apply rounded-lg px-3 py-1 text-sm font-extrabold uppercase tracking-wide text-white;
+  @apply inline-block max-w-full break-words rounded-lg px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-white sm:text-sm;
   background: rgb(var(--c-ok));
 }
 
 .badge-open {
-  @apply rounded-lg px-3 py-1 text-sm font-extrabold uppercase tracking-wide;
+  @apply inline-block max-w-full break-words rounded-lg px-3 py-1 text-xs font-extrabold uppercase tracking-wide sm:text-sm;
   background: rgb(var(--c-accent));
   color: rgb(var(--c-ink));
 }

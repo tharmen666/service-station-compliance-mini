@@ -90,7 +90,7 @@ export default function ShiftPage() {
     <div className="space-y-4">
       <PageHeader title={t("shiftTitle")} sub={`${current.id} · ${new Date(current.openedAt).toLocaleString()}`} />
 
-      <div className="flex items-center justify-between gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <span className={recon.locked && !investigated ? "badge-locked" : "badge-open"}>{statusLabel}</span>
         <span className="text-sm font-bold text-muted">{t("role")}: {role}</span>
       </div>
@@ -127,20 +127,22 @@ export default function ShiftPage() {
       <Card title={t("stepMeters")}>
         <div className="space-y-3">
           {current.meters.map((m) => (
-            <div key={m.id} className="grid grid-cols-3 items-end gap-2">
-              <p className="pb-3 text-lg font-extrabold">{m.name}</p>
-              <NumberField
-                label={t("meterOpen")}
-                value={m.open}
-                step="1"
-                onChange={(v) => patch((sh) => ({ ...sh, meters: sh.meters.map((x) => (x.id === m.id ? { ...x, open: v } : x)) }))}
-              />
-              <NumberField
-                label={t("meterClose")}
-                value={m.close}
-                step="1"
-                onChange={(v) => patch((sh) => ({ ...sh, meters: sh.meters.map((x) => (x.id === m.id ? { ...x, close: v } : x)) }))}
-              />
+            <div key={m.id} className="space-y-2 rounded-xl border border-slate-200 bg-white p-3 sm:grid sm:grid-cols-3 sm:items-end sm:gap-2 sm:space-y-0 sm:border-0 sm:bg-transparent sm:p-0">
+              <p className="text-base font-extrabold sm:pb-3 sm:text-lg">{m.name}</p>
+              <div className="grid grid-cols-1 gap-2 min-[340px]:grid-cols-2 sm:contents">
+                <NumberField
+                  label={t("meterOpen")}
+                  value={m.open}
+                  step="1"
+                  onChange={(v) => patch((sh) => ({ ...sh, meters: sh.meters.map((x) => (x.id === m.id ? { ...x, open: v } : x)) }))}
+                />
+                <NumberField
+                  label={t("meterClose")}
+                  value={m.close}
+                  step="1"
+                  onChange={(v) => patch((sh) => ({ ...sh, meters: sh.meters.map((x) => (x.id === m.id ? { ...x, close: v } : x)) }))}
+                />
+              </div>
             </div>
           ))}
         </div>
@@ -177,7 +179,29 @@ export default function ShiftPage() {
       </Card>
 
       <Card title="Reconciliation">
-        <div className="overflow-x-auto">
+        {/* Stacked mobile cards for 375px viewports */}
+        <div className="space-y-2 sm:hidden">
+          {recon.tanks.map((r) => (
+            <div
+              key={r.tankId}
+              className={`rounded-xl border-2 p-3 ${r.locked ? "border-red-400 bg-red-50" : "border-slate-200 bg-white"}`}
+            >
+              <p className="text-base font-extrabold">{r.product.split(" ")[0]}</p>
+              <dl className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-sm">
+                <dt className="text-muted">{t("theoretical")}</dt>
+                <dd className="text-right font-semibold">{fmt(r.theoreticalL)} L</dd>
+                <dt className="text-muted">{t("closingL")}</dt>
+                <dd className="text-right font-semibold">{r.closingL === null ? "—" : `${fmt(r.closingL)} L`}</dd>
+                <dt className="text-muted">{t("variance")}</dt>
+                <dd className="text-right font-extrabold">{r.varianceL === null ? "—" : `${fmt(r.varianceL)} L`}</dd>
+                <dt className="text-muted">{t("tolerance")}</dt>
+                <dd className="text-right font-semibold">±{fmt(r.tolL)} L</dd>
+              </dl>
+            </div>
+          ))}
+        </div>
+        {/* Desktop table */}
+        <div className="hidden overflow-x-auto sm:block">
           <table className="w-full min-w-[520px] text-left text-base">
             <thead>
               <tr className="border-b-2 border-slate-500">
@@ -201,7 +225,7 @@ export default function ShiftPage() {
             </tbody>
           </table>
         </div>
-        <div className="mt-4 grid grid-cols-1 gap-2 text-lg sm:grid-cols-3">
+        <div className="mt-4 grid grid-cols-1 gap-2 text-base sm:grid-cols-3 sm:text-lg">
           <p>
             <span className="font-bold">{t("expectedRevenue")}:</span> {settings.currency} {fmt(recon.expectedRevenue, 0)}
           </p>
@@ -276,7 +300,7 @@ function DeliveriesCard({ current, patch }: { current: Shift; patch: (fn: (sh: S
             ))}
           </select>
         </label>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <NumberField label={t("preDrop")} value={pre} step="1" onChange={setPre} />
           <NumberField label={t("postDrop")} value={post} step="1" onChange={setPost} />
           <NumberField label={t("omnicommL")} value={omni} step="1" onChange={(v) => setOmni(String(v))} />
@@ -350,7 +374,7 @@ function ClosingDipRow({
         {tankName} · {t("closingL")}: {locked ? `${fmt(shift.closingL[tankId])} L ✓` : `${fmt(litres)} L`}
       </p>
       <DipstickField value={dipstickType} onChange={setDipstickType} disabled={locked} />
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <NumberField label="Closing dip (cm)" value={cm} step="0.1" onChange={setCm} />
         <NumberField label={t("atgClosing")} value={atg} step="1" onChange={(v) => setAtg(String(v))} />
       </div>

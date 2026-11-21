@@ -80,7 +80,7 @@ export default function SettingsPage() {
 
       <Card title={t("thresholds")}>
         <div className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <NumberField label={t("volTol")} value={s.volumetricTolPct} step="0.01" onChange={(v) => set({ volumetricTolPct: v })} />
             <NumberField label={t("deliveryTol")} value={s.deliveryTolPct} step="0.01" onChange={(v) => set({ deliveryTolPct: v })} />
           </div>
@@ -94,7 +94,7 @@ export default function SettingsPage() {
       </Card>
 
       <Card title={t("statutory")}>
-        <dl className="grid grid-cols-1 gap-2 text-lg sm:grid-cols-2">
+        <dl className="mb-3 grid grid-cols-1 gap-2 text-base sm:grid-cols-2 sm:text-lg">
           <dt className="font-bold">Energy / fuel</dt>
           <dd>{statutory.energy}</dd>
           <dt className="font-bold">Environment</dt>

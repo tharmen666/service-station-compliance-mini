@@ -105,7 +105,7 @@ export default function TanksPage() {
 
           <div className="rounded-xl border-2 border-primary bg-white p-4">
             <p className="text-base font-bold text-muted">{t("litres")}</p>
-            <p className="text-5xl font-extrabold text-ink" data-testid="litres">
+            <p className="break-words text-4xl font-extrabold text-ink sm:text-5xl" data-testid="litres">
               {fmt(litres)} L
             </p>
             {waterLitres !== null ? (
@@ -185,7 +185,7 @@ function CalibrationEditor({
       <NumberField label={`${t("capacity")} (L)`} value={capacityL} onChange={setCapacityL} step="1" />
 
       {mode === "geometry" ? (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <NumberField label="Diameter (cm)" value={diameterCm} onChange={setDiameterCm} step="0.1" />
           <NumberField label="Length (cm)" value={lengthCm} onChange={setLengthCm} step="0.1" />
         </div>

@@ -18,8 +18,8 @@ export function useT(): { t: (k: TKey) => string; lang: Lang } {
 export function PageHeader({ title, sub }: { title: string; sub?: string }) {
   return (
     <header className="mb-4">
-      <h1 className="text-3xl font-extrabold leading-tight text-ink">{title}</h1>
-      {sub ? <p className="mt-1 text-lg text-muted">{sub}</p> : null}
+      <h1 className="break-words text-2xl font-extrabold leading-tight text-ink sm:text-3xl">{title}</h1>
+      {sub ? <p className="mt-1 break-words text-base text-muted sm:text-lg">{sub}</p> : null}
     </header>
   );
 }
@@ -27,7 +27,7 @@ export function PageHeader({ title, sub }: { title: string; sub?: string }) {
 export function Card({ title, children, className = "" }: { title?: string; children: ReactNode; className?: string }) {
   return (
     <section className={`card ${className}`}>
-      {title ? <h2 className="mb-3 text-xl font-extrabold text-ink">{title}</h2> : null}
+      {title ? <h2 className="mb-3 break-words text-xl font-extrabold text-ink">{title}</h2> : null}
       {children}
     </section>
   );
@@ -42,7 +42,7 @@ export function Alert({ tone, children }: { tone: "danger" | "warn" | "ok" | "in
       : tone === "ok"
       ? "border-green-700 bg-green-50 text-green-900"
       : "border-slate-500 bg-white text-ink";
-  return <div className={`rounded-xl border-2 p-3 text-lg font-semibold ${cls}`}>{children}</div>;
+  return <div className={`break-words rounded-xl border-2 p-3 text-base font-semibold sm:text-lg ${cls}`}>{children}</div>;
 }
 
 export function DipstickField({

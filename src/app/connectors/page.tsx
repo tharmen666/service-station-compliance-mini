@@ -191,26 +191,26 @@ export default function ConnectorsPage() {
       </Card>
 
       <Card title={t("titanTitle")}>
-        <p className="text-base font-bold">{t("endpoint")}: <code>POST /api/v1/connectors/titan-cloud</code></p>
+        <p className="break-words text-base font-bold">{t("endpoint")}: <code className="break-all">POST /api/v1/connectors/titan-cloud</code></p>
         <p className="mb-2 text-sm text-muted">Daily ATG closing volume (L) and water level, plus CSV importer above.</p>
-        <pre className="overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(TITAN_EXAMPLE, null, 2)}</pre>
+        <pre className="max-w-full overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(TITAN_EXAMPLE, null, 2)}</pre>
       </Card>
 
       <Card title={t("omnicommTitle")}>
-        <p className="text-base font-bold">{t("endpoint")}: <code>POST /api/v1/connectors/omnicomm</code></p>
+        <p className="break-words text-base font-bold">{t("endpoint")}: <code className="break-all">POST /api/v1/connectors/omnicomm</code></p>
         <p className="mb-2 text-sm text-muted">Inbound tanker dispatch volume (L) and GPS arrival, matched to pre- and post-drop dips.</p>
-        <pre className="overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(OMNICOMM_EXAMPLE, null, 2)}</pre>
+        <pre className="max-w-full overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(OMNICOMM_EXAMPLE, null, 2)}</pre>
       </Card>
 
       <Card title={t("omisTitle")}>
-        <p className="text-base font-bold">{t("endpoint")}: <code>POST /api/v1/connectors/omis-4</code></p>
+        <p className="break-words text-base font-bold">{t("endpoint")}: <code className="break-all">POST /api/v1/connectors/omis-4</code></p>
         <p className="mb-2 text-sm text-muted">Raised automatically for pump meter drift, UST water ingress or unresolved variance.</p>
-        <pre className="mb-3 overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(OMIS_EXAMPLE, null, 2)}</pre>
+        <pre className="mb-3 max-w-full overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(OMIS_EXAMPLE, null, 2)}</pre>
         <button type="button" className="btn w-full" onClick={raiseTicket}>
           <Send size={20} aria-hidden="true" />
           {t("escalate")}
         </button>
-        {omisMsg ? <Alert tone={omisMsg === "FAILED" ? "danger" : "info"}>{omisMsg}</Alert> : null}
+        {omisMsg ? <div className="mt-3"><Alert tone={omisMsg === "FAILED" ? "danger" : "info"}>{omisMsg}</Alert></div> : null}
         <h3 className="mt-4 text-lg font-extrabold">{t("ticketsTitle")}</h3>
         {state.tickets.length === 0 ? (
           <p className="text-muted">{t("noTickets")}</p>

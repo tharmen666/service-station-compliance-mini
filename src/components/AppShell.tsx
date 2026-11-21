@@ -21,6 +21,7 @@ import { FOOTER_TEXT } from "./ui";
 
 const NAV: { href: string; key: TKey; icon: typeof LayoutDashboard }[] = [
   { href: "/", key: "navDashboard", icon: LayoutDashboard },
+  { href: "/guide", key: "navGuide", icon: BookOpen },
   { href: "/tanks", key: "navTanks", icon: Droplets },
   { href: "/shift", key: "navShift", icon: ClipboardList },
   { href: "/drills", key: "navDrills", icon: ShieldAlert },
@@ -46,61 +47,63 @@ export default function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col">
-      <header className="sticky top-0 z-20 border-b-4 border-accent bg-primary px-4 py-3 text-white">
-        <div className="flex items-center justify-between gap-2">
-          <div className="min-w-0">
-            <p className="truncate text-lg font-extrabold leading-tight">{tr("appName")}</p>
-            <p className="truncate text-sm text-slate-200">{state.settings.stationName}</p>
-          </div>
-          <div className="flex shrink-0 gap-1" role="group" aria-label={tr("langLabel")}>
-            {LANGS.map((l) => (
-              <button
-                key={l.code}
-                type="button"
-                onClick={() => setLang(l.code)}
-                aria-pressed={lang === l.code}
-                className={`rounded-lg px-2 text-sm font-extrabold ${
-                  lang === l.code ? "bg-accent text-ink" : "bg-slate-700 text-white"
-                }`}
-              >
-                {l.code.toUpperCase()}
-              </button>
-            ))}
-          </div>
-        </div>
-      </header>
-
-      <nav className="sticky top-[88px] z-10 overflow-x-auto border-b-2 border-slate-300 bg-surface">
-        <ul className="flex min-w-max gap-1 px-2 py-2">
-          {NAV.map((item) => {
-            const active = pathname === item.href;
-            const Icon = item.icon;
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`flex min-h-[48px] items-center gap-2 rounded-xl px-3 text-base font-bold ${
-                    active ? "bg-primary text-white" : "text-ink hover:bg-slate-200"
+      <div className="sticky top-0 z-20 w-full">
+        <header className="border-b-4 border-accent bg-primary px-3 py-2.5 text-white sm:px-4 sm:py-3">
+          <div className="flex items-center justify-between gap-2">
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-base font-extrabold leading-tight sm:text-lg">{tr("appName")}</p>
+              <p className="truncate text-xs text-slate-200 sm:text-sm">{state.settings.stationName}</p>
+            </div>
+            <div className="flex shrink-0 gap-1" role="group" aria-label={tr("langLabel")}>
+              {LANGS.map((l) => (
+                <button
+                  key={l.code}
+                  type="button"
+                  onClick={() => setLang(l.code)}
+                  aria-pressed={lang === l.code}
+                  className={`min-h-[44px] min-w-[44px] rounded-lg px-2 text-sm font-extrabold ${
+                    lang === l.code ? "bg-accent text-ink" : "bg-slate-700 text-white"
                   }`}
                 >
-                  <Icon size={20} aria-hidden="true" />
-                  {tr(item.key)}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+                  {l.code.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+        </header>
 
-      <main className="flex-1 px-4 py-4">
+        <nav className="w-full overflow-x-auto overscroll-x-contain border-b-2 border-slate-300 bg-surface">
+          <ul className="flex min-w-max gap-1 px-2 py-2">
+            {NAV.map((item) => {
+              const active = pathname === item.href;
+              const Icon = item.icon;
+              return (
+                <li key={item.href} className="shrink-0">
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-xl px-3 text-sm font-bold sm:min-h-[48px] sm:text-base ${
+                      active ? "bg-primary text-white" : "text-ink hover:bg-slate-200"
+                    }`}
+                  >
+                    <Icon size={18} aria-hidden="true" className="shrink-0" />
+                    {tr(item.key)}
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
+
+      <main className="min-w-0 flex-1 px-3 py-4 sm:px-4">
         {loaded ? children : <p className="text-lg text-muted">…</p>}
       </main>
 
       <footer className="border-t-4 border-accent bg-primary px-4 py-4 text-center text-sm font-semibold text-white">
         <p className="flex items-center justify-center gap-2">
-          <BookOpen size={16} aria-hidden="true" />
-          {FOOTER_TEXT}
+          <BookOpen size={16} aria-hidden="true" className="shrink-0" />
+          <span className="break-words">{FOOTER_TEXT}</span>
         </p>
       </footer>
     </div>

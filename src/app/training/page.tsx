@@ -61,7 +61,7 @@ export default function TrainingPage() {
         </button>
       </div>
 
-      <div className="flex justify-center gap-2" role="tablist" aria-label={t("slideOf")}>
+      <div className="flex flex-wrap justify-center gap-1" role="tablist" aria-label={t("slideOf")}>
         {SLIDES.map((_, idx) => (
           <button
             key={idx}
@@ -70,8 +70,10 @@ export default function TrainingPage() {
             aria-selected={idx === i}
             aria-label={`${t("slideOf")} ${idx + 1}`}
             onClick={() => setI(idx)}
-            className={`h-3 w-3 rounded-full ${idx === i ? "bg-primary" : "bg-slate-400"}`}
-          />
+            className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-slate-200"
+          >
+            <span className={`h-3 w-3 rounded-full ${idx === i ? "bg-primary" : "bg-slate-400"}`} />
+          </button>
         ))}
       </div>
 

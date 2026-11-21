@@ -6,6 +6,7 @@ const T = {
   appName: ["Service Station Compliance Mini", "Service Station Compliance Mini", "Service Station Compliance Mini"],
   tagline: ["Wetstock, dipstick & shift compliance", "Ufuatiliaji wa mafuta, kipimo & zamu", "Gukurikirana ibicuruzwa, ipimwa & amakoraniro"],
   navDashboard: ["Dashboard", "Dashibodi", "Ahabanza"],
+  navGuide: ["Guide", "Mwongozo", "Inyoborabikorwa"],
   navTanks: ["Tanks", "Matangi", "Ibigega"],
   navShift: ["Shift", "Zamu", "Akazi"],
   navDrills: ["Drills", "Mazoezi", "Imyitozo"],
@@ -149,6 +150,209 @@ const T = {
   ok: ["OK", "Sawa", "Birakwiye"],
   warn: ["Warning", "Onyo", "Umuburo"],
   critical: ["Critical", "Hatari", "Ikomeye"],
+
+  // Dashboard guide card & /guide Executive & Operations Guide
+  dashGuideTitle: ["Executive & Operations Guide", "Mwongozo wa Uongozi na Uendeshaji", "Inyoborabikorwa y'Ubuyobozi n'Ibikorwa"],
+  dashGuideBody: [
+    "Executive statement, key features, installation steps, and daily forecourt usage workflow.",
+    "Taarifa ya uongozi, vipengele muhimu, hatua za usakinishaji na mtiririko wa matumizi ya kila siku kituoni.",
+    "Incamake y'ubuyobozi, ibiranga by'ingenzi, intambwe zo gushyiraho n'uburyo bwo gukoresha buri munsi ku kibuga.",
+  ],
+  dashGuideCta: ["Open Executive & Operations Guide", "Fungua Mwongozo wa Uongozi na Uendeshaji", "Fungura Inyoborabikorwa y'Ubuyobozi"],
+  guideTitle: ["Executive & Operations Guide", "Mwongozo wa Uongozi na Uendeshaji", "Inyoborabikorwa y'Ubuyobozi n'Ibikorwa"],
+  guideSub: [
+    "Platform overview, forecourt challenge solutions, installation, and daily shift usage",
+    "Muhtasari wa jukwaa, suluhu za changamoto za kituo, usakinishaji na matumizi ya zamu ya kila siku",
+    "Incamake ya porogaramu, ibisubizo by'imbogamizi zo ku kibuga, gushyiraho n'imikoreshereze ya buri munsi",
+  ],
+  guideJumpExec: ["Executive", "Uongozi", "Ubuyobozi"],
+  guideJumpFeatures: ["Features", "Vipengele", "Ibiranga"],
+  guideJumpInstall: ["Install", "Usakinishaji", "Gushyiraho"],
+  guideJumpUsage: ["Usage", "Matumizi", "Imikoreshereze"],
+
+  // Section 1: Executive Statement
+  guideExecTitle: ["Executive Statement", "Taarifa ya Uongozi", "Incamake y'Ubuyobozi"],
+  guideExecP1: [
+    "Service Station Compliance Mini is a zero-hardware forecourt wetstock reconciliation and operational safety platform built for East African fuel retail sites.",
+    "Service Station Compliance Mini ni jukwaa lisilohitaji vifaa maalum kwa ulinganishi wa wetstock na usalama wa uendeshaji wa vituo vya mafuta Afrika Mashariki.",
+    "Service Station Compliance Mini ni urubuga rudakenera ibikoresho byihariye rwo guhuza ibipimo by'ibikomoka kuri peteroli n'umutekano w'ibikorwa ku bigo by'ibikomoka muri Afurika y'Iburasirazuba.",
+  ],
+  guideExecP2: [
+    "It converts manual dip readings (cm → Litres), supports a practical transition from legacy aluminium/metal dipsticks to calibrated wooden dipsticks (wooden | aluminium), enforces shift and cash-up variance lockouts with mandatory supervisor sign-off, delivers multilingual frontline drills (English, Swahili, Kinyarwanda) and an 8-slide rollout training deck, logs tamper-evident SHA-256 audit records, and integrates with Titan Cloud, OMIS 4.0, and Omnicomm.",
+    "Inabadilisha vipimo vya mkono (cm → Lita), inaunga mkono mpito wa vitendo kutoka fimbo za zamani za aluminiamu/chuma hadi fimbo za mbao zilizopimwa (wooden | aluminium), inasimamia kufuli za tofauti za zamu na fedha kwa saini ya lazima ya msimamizi, inatoa mazoezi ya lugha nyingi (Kiingereza, Kiswahili, Kinyarwanda) na slaidi 8 za mafunzo, inarekodi daftari la ukaguzi la SHA-256 lisilobadilishika, na kuunganishwa na Titan Cloud, OMIS 4.0, na Omnicomm.",
+    "Ihindura ipimwa ry'intoki (cm → Litiro), ishyigikira inzibacyuho ifatika yo kuva ku bikoresho bya kera by'aluminiyumu/icyuma ukajya ku bikoresho by'imbaho bipimwe (wooden | aluminium), ishyira mu bikorwa gufunga itandukaniro ry'akazi n'amafaranga bisaba umukono w'umugenzuzi, itanga imyitozo mu ndimi nyinshi (Icyongereza, Igiswahili, Ikinyarwanda) n'amasomo 8 yo guhugura, yandika inyandiko z'igenzura za SHA-256 zidahindurwa, kandi ihuza na Titan Cloud, OMIS 4.0, na Omnicomm.",
+  ],
+
+  // Section 2: Key Features Addressing Jesse Muniu's Forecourt Challenges
+  guideFeaturesTitle: [
+    "Key Features Addressing Jesse Muniu's Forecourt Challenges",
+    "Vipengele Muhimu Vinavyotatua Changamoto za Kituo za Jesse Muniu",
+    "Ibiranga by'Ingenzi Bikemura Imbogamizi zo ku Kibuga za Jesse Muniu",
+  ],
+  guideFeat1Title: [
+    "Wooden vs. Legacy Aluminium/Metal Dipstick Transition (cm → Litres)",
+    "Mpito wa Fimbo ya Mbao dhidi ya Aluminiamu/Chuma (cm → Lita)",
+    "Inzibacyuho y'Igikoresho cy'Imbaho n'Aluminiyumu/Icyuma (cm → Litiro)",
+  ],
+  guideFeat1Body: [
+    "Converts manual wet-dip centimetres to litres via tank geometry or strapping charts, with non-blocking tank-bottom wear advisories for aging 15–20 year underground steel USTs when legacy aluminium/metal dipsticks are used.",
+    "Inabadilisha sentimita za kipimo kuwa lita kwa jiometri ya tanki au jedwali la kipimo, ikiwa na tahadhari zisizozuia zamu kuhusu uchakavu wa chini ya matangi ya chuma ya miaka 15–20 wakati fimbo za aluminiamu/chuma zinapotumika.",
+    "Ihindura santimetero z'ipimwa mo litiro hifashishijwe impande z'ikigega cyangwa imbonerahamwe, hamwe n'inama zidahagarika akazi ku kwangirika hasi ku bigega by'ibyuma bya imyaka 15–20 igihe hakoreshejwe ibikoresho by'aluminiyumu/icyuma.",
+  ],
+  guideFeat2Title: [
+    "Shift Open/Close & Cash-Up Variance Lockouts",
+    "Kufuli za Tofauti za Kufungua/Kufunga Zamu na Hesabu ya Fedha",
+    "Gufunga Itandukaniro ry'Akazi n'Ibarura ry'Amafaranga",
+  ],
+  guideFeat2Body: [
+    "Reconciles opening stock, deliveries, pump meter sales, closing dips, and cash/mobile-money/card totals against configurable thresholds, locking out-of-tolerance shifts until a root-cause investigation note and supervisor sign-off are recorded.",
+    "Inalinganisha stoku ya mwanzo, mizigo, mauzo ya mita za pampu, vipimo vya mwisho na jumla ya fedha/pesa za simu/kadi dhidi ya viwango vilivyowekwa, ikifunga zamu zenye tofauti hadi maelezo ya chanzo na saini ya msimamizi zirekodiwe.",
+    "Ihuza ububiko butangira, ibyinjiye, ibyagurishijwe kuri metero, ipimwa rya nyuma n'amafaranga/telefone/amakarita ugereranyije n'imbibi zashyizweho, igafunga akazi gafite itandukaniro kugeza igisobanuro cy'intandaro n'umukono w'umugenzuzi byanditswe.",
+  ],
+  guideFeat3Title: [
+    "Titan Cloud, OMIS 4.0 & Omnicomm Integration Bridge",
+    "Daraja la Muunganisho wa Titan Cloud, OMIS 4.0 na Omnicomm",
+    "Ihuza rya Titan Cloud, OMIS 4.0 na Omnicomm",
+  ],
+  guideFeat3Body: [
+    "Provides plug-in connector endpoints and CSV import/export bridges for Titan Cloud (ATG wetstock), OMIS 4.0 (maintenance escalation), and Omnicomm (tanker custody) while operating seamlessly in zero-hardware manual/POS mode.",
+    "Inatoa anwani za viunganishi na daraja la kuingiza/kutoa CSV kwa Titan Cloud (ATG wetstock), OMIS 4.0 (matengenezo), na Omnicomm (mzigo wa tanka) huku ikifanya kazi vizuri bila vifaa maalum.",
+    "Itanga aderesi z'ihuza no kwinjiza/gusohora CSV kuri Titan Cloud (ATG wetstock), OMIS 4.0 (gusana), na Omnicomm (umuzigo w'ikamyo) kandi ikora neza nta bikoresho byihariye bikenewe.",
+  ],
+  guideFeat4Title: [
+    "Multilingual Frontline Drills & 8-Slide Rollout Deck",
+    "Mazoezi ya Mstari wa Mbele ya Lugha Nyingi na Slaidi 8 za Mafunzo",
+    "Imyitozo y'Abakozi mu Ndimi Nyinshi n'Amasomo 8 yo Gutangiza",
+  ],
+  guideFeat4Body: [
+    "Delivers interactive pocket drills for tanker offloading, fuel spill response, emergency evacuation, basic first aid, and customer service in English, Swahili, and Kinyarwanda, paired with the built-in 8-slide training deck.",
+    "Inatoa mazoezi ya mfukoni ya kupakua tanka, kumwagika kwa mafuta, uokoaji wa dharura, huduma ya kwanza na huduma kwa wateja kwa Kiingereza, Kiswahili na Kinyarwanda, pamoja na slaidi 8 za mafunzo.",
+    "Itanga imyitozo yo mu mufuka yo gupakurura ikamyo, kumeneka kw'ibikomoka, gukura abantu mu kaga, ubufasha bw'ibanze na serivisi ku bakiriya mu Cyongereza, Igiswahili n'Ikinyarwanda, hamwe n'amasomo 8 y'amahugurwa.",
+  ],
+  guideFeat5Title: [
+    "Regional Statutory Grounding & SHA-256 Audit Ledger",
+    "Mpangilio wa Kisheria wa Kikanda na Daftari la Ukaguzi la SHA-256",
+    "Ihuzwa n'Amategeko y'Akarere n'Ikaye y'Igenzura ya SHA-256",
+  ],
+  guideFeat5Body: [
+    "Maps workflows to statutory regulators across Kenya (EPRA/NEMA/DOSHS/KEBS), Tanzania (EWURA/NEMC/OSHA/TBS), Uganda (MEMD (Petroleum Supply Dept.) & UNBS / NEMA / OSH Act 2006), and Rwanda (RURA/REMA/RSB), backed by an append-only SHA-256 hash-chained audit ledger.",
+    "Inaunganisha taratibu na mamlaka za kisheria Kenya (EPRA/NEMA/DOSHS/KEBS), Tanzania (EWURA/NEMC/OSHA/TBS), Uganda (MEMD (Petroleum Supply Dept.) & UNBS / NEMA / OSH Act 2006), na Rwanda (RURA/REMA/RSB), ikiungwa mkono na daftari la SHA-256 lisilobadilishika.",
+    "Ihuza ibikorwa n'inzego z'amategeko muri Kenya (EPRA/NEMA/DOSHS/KEBS), Tanzania (EWURA/NEMC/OSHA/TBS), Uganda (MEMD (Petroleum Supply Dept.) & UNBS / NEMA / OSH Act 2006), na Rwanda (RURA/REMA/RSB), hamwe n'ikaye ya SHA-256 idahindurwa.",
+  ],
+
+  // Section 3: Step-by-Step Installation Instructions
+  guideInstallTitle: [
+    "Step-by-Step Installation Instructions",
+    "Maelekezo ya Hatua kwa Hatua ya Usakinishaji",
+    "Amabwiriza y'Intambwe ku Yindi yo Gushyiraho",
+  ],
+  guideInstall1Title: [
+    "Instant Browser Access (Zero Hardware)",
+    "Ufikiaji wa Haraka wa Kivinjari (Bila Vifaa Maalum)",
+    "Gukoresha ako Kanya muri Browser (Nta Bikoresho Byihariye)",
+  ],
+  guideInstall1Body: [
+    "Open the live platform URL in Chrome, Edge, or Safari on any Android phone, iPhone, tablet, or forecourt PC. All shift, dip, and ledger data runs immediately and persists locally on the device.",
+    "Fungua kiungo cha jukwaa kwenye Chrome, Edge au Safari katika simu yoyote ya Android, iPhone, tablet au kompyuta ya kituoni. Data zote za zamu, vipimo na daftari hufanya kazi mara moja na kuhifadhiwa kwenye kifaa.",
+    "Fungura urubuga muri Chrome, Edge cyangwa Safari kuri telefone ya Android, iPhone, tablet cyangwa mudasobwa. Amakuru yose y'akazi, ipimwa na ledger akora ako kanya kandi abikwa ku gikoresho.",
+  ],
+  guideInstall2Title: [
+    "Add to Home Screen (App Shortcut — No App Store Delays)",
+    "Ongeza kwenye Skrini ya Mwanzo (Bila Kusubiri Duka la Programu)",
+    "Shyira ku Kirahure cy'Itangiriro (Nta Gutegereza App Store)",
+  ],
+  guideInstall2Body: [
+    "On Android Chrome: tap the ⋮ menu → 'Add to Home screen' → 'Add'. On iOS Safari: tap the Share button → 'Add to Home Screen' → 'Add'. Forecourt staff get one-tap access with full-screen usability.",
+    "Kwenye Android Chrome: gusa menyu ⋮ → 'Add to Home screen' → 'Add'. Kwenye iOS Safari: gusa kitufe cha Share → 'Add to Home Screen' → 'Add'. Wafanyakazi wanapata ufikiaji wa kugusa mara moja.",
+    "Kuri Android Chrome: kanda menyu ⋮ → 'Add to Home screen' → 'Add'. Kuri iOS Safari: kanda Share → 'Add to Home Screen' → 'Add'. Abakozi babona uburyo bwo gufungura mu kanya gato.",
+  ],
+  guideInstall3Title: [
+    "Local Developer Deployment",
+    "Usakinishaji wa Ndani kwa Wasanidi",
+    "Gushyira ku Mudasobwa w'Abatunganya Porogaramu",
+  ],
+  guideInstall3Body: [
+    "Clone the repository, install dependencies with `npm install`, start the local server with `npm run dev`, and verify production builds with `npm run build`.",
+    "Nakili hazina ya msimbo, sakinisha vifurushi kwa `npm install`, washa seva ya ndani kwa `npm run dev`, na thibitisha toleo la uzalishaji kwa `npm run build`.",
+    "Kora kopi ya kode, shyiramo ibikenewe ukoresheje `npm install`, tangiza seriveri ya hafi na `npm run dev`, kandi wemeze iyubakwa na `npm run build`.",
+  ],
+  guideInstall4Title: [
+    "Initial Station & Connector Setup",
+    "Mipangilio ya Awali ya Kituo na Viunganishi",
+    "Igenamiterere ry'Ibanze ry'Ikigo n'Ihuza",
+  ],
+  guideInstall4Body: [
+    "Open Settings to enter your Station Name, select Country (auto-sets Currency and statutory bodies), configure volumetric/delivery/cash variance thresholds, choose your active Role, and review connector endpoints in Connectors.",
+    "Fungua Mipangilio kuingiza Jina la Kituo, chagua Nchi (huweka Sarafu na mamlaka za kisheria kiotomatiki), weka vizingiti vya tofauti za ujazo/mzigo/fedha, chagua Nafasi yako, na kagua viunganishi kwenye Viunganishi.",
+    "Fungura Igenamiterere wandike Izina ry'Ikigo, uhitemo Igihugu (bihita bishyiraho Ifaranga n'inzego z'amategeko), ushyireho imbibi z'itandukaniro, uhitemo Inshingano zawe, hanyuma ugenzure Ihuza.",
+  ],
+
+  // Section 4: Step-by-Step Usage Instructions
+  guideUsageTitle: [
+    "Step-by-Step Usage Instructions",
+    "Maelekezo ya Hatua kwa Hatua ya Matumizi",
+    "Amabwiriza y'Intambwe ku Yindi yo Gukoresha",
+  ],
+  guideUsage1Title: [
+    "Register Tanks & Calibration Specs",
+    "Sajili Matangi na Vipimo vya Ukalibishaji",
+    "Andikisha Ibigega n'Ibipimo by'Ikalibisha",
+  ],
+  guideUsage1Body: [
+    "Go to Tanks to verify each tank's capacity and calibration mode — either horizontal cylinder geometry (diameter & length in cm) or a custom strapping chart (cm, litres).",
+    "Nenda Matangi kuthibitisha uwezo wa kila tanki na hali ya ukalibishaji — jiometri ya silinda (kipenyo na urefu kwa cm) au jedwali maalum la kipimo (cm, lita).",
+    "Jya ku Bigega wemeze ubushobozi bwa buri kigega n'uburyo bw'ikalibisha — impande za silindire (umurambararo n'uburebure muri cm) cyangwa imbonerahamwe (cm, litiro).",
+  ],
+  guideUsage2Title: [
+    "Capture Opening, Delivery & Closing Dips (cm → Litres)",
+    "Rekodi Vipimo vya Mwanzo, Mzigo na Mwisho (cm → Lita)",
+    "Fata Ipimwa Ritangira, Ibyinjiye n'Irya Nyuma (cm → Litiro)",
+  ],
+  guideUsage2Body: [
+    "Select the dipstick material (Calibrated Wooden Dipstick recommended, or Legacy Aluminium/Metal Transition Mode), enter the wet dip in cm and optional water-paste reading, verify the calculated litres, and tap Record & Lock Dip.",
+    "Chagua aina ya fimbo ya kupimia (Fimbo ya Mbao Iliyopimwa inapendekezwa, au Hali ya Mpito ya Aluminiamu/Chuma), ingiza kipimo cha cm na kipimo cha maji, hakiki lita na gusa Hifadhi & Funga Kipimo.",
+    "Hitamo ubwoko bw'igikoresho cyo gupima (Imbaho Gipimwe gisabwa, cyangwa Inzibacyuho y'Aluminiyumu/Icyuma), wandike cm n'ipimwa ry'amazi, wemeze litiro hanyuma ukande Andika & Funga Ipimwa.",
+  ],
+  guideUsage3Title: [
+    "Enter Pump Meter Sales & Cash-Up Totals",
+    "Ingiza Mauzo ya Mita za Pampu na Jumla ya Fedha",
+    "Injiza Ibyagurishijwe kuri Metero n'Amafaranga Yakusanyijwe",
+  ],
+  guideUsage3Body: [
+    "In Shift, confirm opening stock, log any tanker deliveries (pre-drop, post-drop, Omnicomm volume, waybill), enter opening/closing nozzle meters, and record Cash, Mobile Money (M-Pesa/Airtel), and Card totals.",
+    "Katika Zamu, thibitisha stoku ya mwanzo, rekodi mizigo ya tanka (kabla/baada ya kushusha, Omnicomm, waybill), ingiza mita za pua za mwanzo/mwisho, na urekodi Fedha Taslimu, Pesa za Simu na Kadi.",
+    "Muri Akazi, emeza ububiko butangira, wandike imizigo yinjiye (mbere/nyuma yo gupfundura, Omnicomm, waybill), wandike metero zitangira n'izirangiza, n'Amafaranga, Telefone n'Amakarita.",
+  ],
+  guideUsage4Title: [
+    "Resolve Variance Lockouts & Supervisor Sign-Off",
+    "Tatua Kufuli za Tofauti na Saini ya Msimamizi",
+    "Kemura Gufunga Itandukaniro n'Umukono w'Umugenzuzi",
+  ],
+  guideUsage4Body: [
+    "If volumetric, delivery, or cash variance exceeds tolerance, the shift displays LOCKED — INVESTIGATION REQUIRED. Select a root cause, enter an investigation note, and have a Supervisor or Station Manager sign off to close the shift.",
+    "Tofauti ya ujazo, mzigo au fedha ikizidi ukomo, zamu huonyesha IMEFUNGWA — UCHUNGUZI UNAHITAJIKA. Chagua chanzo, andika maelezo ya uchunguzi, kisha Msimamizi au Meneja asaini kufunga zamu.",
+    "Niba itandukaniro ry'ubunini, umuzigo cyangwa amafaranga rirenze ihame, akazi kerekana IRAFUNZE — HAKENEWE IPEREREZA. Hitamo intandaro, wandike igisobanuro, hanyuma Umugenzuzi cyangwa Umuyobozi asinye gufunga akazi.",
+  ],
+  guideUsage5Title: [
+    "Run Frontline Drills & 8-Slide Training Deck",
+    "Fanya Mazoezi ya Mstari wa Mbele na Slaidi 8 za Mafunzo",
+    "Kora Imyitozo y'Abakozi n'Amasomo 8 y'Amahugurwa",
+  ],
+  guideUsage5Body: [
+    "Use Drills during daily tool-box talks and quarterly exercises to check off tanker, spill, evacuation, first-aid, and customer-service steps. Step through the 8-slide deck in Training and record completion sign-off to the ledger.",
+    "Tumia Mazoezi wakati wa vikao vya kila siku na robo mwaka kukagua hatua za tanka, kumwagika, uokoaji, huduma ya kwanza na huduma kwa wateja. Pitia slaidi 8 kwenye Mafunzo na urekodi saini ya kukamilisha.",
+    "Koresha Imyitozo mu biganiro bya buri munsi n'imyitozo ya buri gihembwe kugenzura intambwe z'ikamyo, kumeneka, gukura abantu mu kaga, ubufasha bw'ibanze na serivisi. Soma amasomo 8 muri Amahugurwa wandike umukono.",
+  ],
+  guideUsage6Title: [
+    "Export SHA-256 Audit Logs & Sync Connectors",
+    "Pakua Daftari la Ukaguzi la SHA-256 na Unganisha Viunganishi",
+    "Manura Ikaye y'Igenzura ya SHA-256 kandi Uhuze Ihuza",
+  ],
+  guideUsage6Body: [
+    "Open Ledger to verify the SHA-256 hash chain and export audit CSVs (tagged with wooden vs. aluminium dipstick usage). Use Connectors to import/export ATG CSV templates or post payloads to Titan Cloud, OMIS 4.0, and Omnicomm.",
+    "Fungua Daftari kuthibitisha mnyororo wa SHA-256 na kupakua CSV ya ukaguzi (yenye alama ya fimbo ya mbao dhidi ya aluminiamu). Tumia Viunganishi kuingiza/kupakua CSV ya ATG au kutuma data kwa Titan Cloud, OMIS 4.0 na Omnicomm.",
+    "Fungura Ikaye wemeze umunyururu wa SHA-256 unamanure CSV y'igenzura (yerekana imbaho cyangwa aluminiyumu). Koresha Ihuza kwinjiza/gusohora CSV ya ATG cyangwa kohereza amakuru kuri Titan Cloud, OMIS 4.0 na Omnicomm.",
+  ],
 } as const;
 
 export type TKey = keyof typeof T;
