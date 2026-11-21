@@ -72,8 +72,11 @@ export default function AppShell({ children }: { children: ReactNode }) {
           </div>
         </header>
 
-        <nav className="w-full overflow-x-auto overscroll-x-contain border-b-2 border-slate-300 bg-surface">
-          <ul className="flex min-w-max gap-1 px-2 py-2">
+        <nav
+          aria-label="Primary navigation"
+          className="no-scrollbar w-full overflow-x-auto overscroll-x-contain border-b-2 border-slate-300 bg-surface sm:overflow-x-visible"
+        >
+          <ul className="flex min-w-max gap-1 px-2 py-2 sm:min-w-0 sm:flex-wrap sm:gap-1.5 sm:px-3">
             {NAV.map((item) => {
               const active = pathname === item.href;
               const Icon = item.icon;
@@ -82,11 +85,11 @@ export default function AppShell({ children }: { children: ReactNode }) {
                   <Link
                     href={item.href}
                     aria-current={active ? "page" : undefined}
-                    className={`flex min-h-[44px] items-center gap-2 whitespace-nowrap rounded-xl px-3 text-sm font-bold sm:min-h-[48px] sm:text-base ${
+                    className={`flex min-h-[44px] items-center gap-1.5 whitespace-nowrap rounded-xl px-2.5 text-sm font-bold sm:px-3 ${
                       active ? "bg-primary text-white" : "text-ink hover:bg-slate-200"
                     }`}
                   >
-                    <Icon size={18} aria-hidden="true" className="shrink-0" />
+                    <Icon size={16} aria-hidden="true" className="shrink-0" />
                     {tr(item.key)}
                   </Link>
                 </li>
