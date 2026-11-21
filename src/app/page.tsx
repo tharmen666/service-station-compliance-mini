@@ -5,6 +5,7 @@ import { BookOpen } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { computeShiftRecon, geometryCapacityL } from "@/lib/calc";
 import { verifyLedger } from "@/lib/ledger";
+import { DemoButton } from "@/components/DemoVideo";
 import { Alert, Card, PageHeader, fmt, useT } from "@/components/ui";
 
 export default function DashboardPage() {
@@ -20,6 +21,7 @@ export default function DashboardPage() {
   return (
     <div className="space-y-4">
       <PageHeader title={t("dashTitle")} sub={t("dashSub")} />
+      <DemoButton />
 
       <Card title={t("openLocks")}>
         {recon && recon.locked ? (

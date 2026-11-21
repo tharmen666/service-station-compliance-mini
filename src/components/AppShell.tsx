@@ -18,6 +18,7 @@ import { useStore } from "@/lib/store";
 import { LANGS, translate, type TKey } from "@/lib/i18n";
 import type { Lang } from "@/lib/types";
 import { FOOTER_TEXT } from "./ui";
+import DemoModal, { DemoButton } from "./DemoVideo";
 
 const NAV: { href: string; key: TKey; icon: typeof LayoutDashboard }[] = [
   { href: "/", key: "navDashboard", icon: LayoutDashboard },
@@ -54,7 +55,8 @@ export default function AppShell({ children }: { children: ReactNode }) {
               <p className="truncate text-base font-extrabold leading-tight sm:text-lg">{tr("appName")}</p>
               <p className="truncate text-xs text-slate-200 sm:text-sm">{state.settings.stationName}</p>
             </div>
-            <div className="flex shrink-0 gap-1" role="group" aria-label={tr("langLabel")}>
+            <div className="flex shrink-0 items-center gap-1" role="group" aria-label={tr("langLabel")}>
+              <DemoButton compact />
               {LANGS.map((l) => (
                 <button
                   key={l.code}
@@ -102,6 +104,8 @@ export default function AppShell({ children }: { children: ReactNode }) {
       <main className="min-w-0 flex-1 px-3 py-4 sm:px-4">
         {loaded ? children : <p className="text-lg text-muted">…</p>}
       </main>
+
+      <DemoModal />
 
       <footer className="border-t-4 border-accent bg-primary px-4 py-4 text-center text-sm font-semibold text-white">
         <p className="flex items-center justify-center gap-2">
