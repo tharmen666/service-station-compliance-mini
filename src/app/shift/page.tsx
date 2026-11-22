@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { computeShiftRecon, litresFromCm } from "@/lib/calc";
 import { appendLedger } from "@/lib/ledger";
 import { Alert, Card, DipstickField, NumberField, PageHeader, fmt, useT } from "@/components/ui";
+import { HybridAiDiagnosticCard } from "@/components/HybridAiDiagnosticCard";
 import type { Delivery, DipstickType, InvestigationCause, Role, Shift } from "@/lib/types";
 
 const CAUSES: InvestigationCause[] = ["PUMP_CALIBRATION", "DRIVE_OFF", "SHORT_DROP", "TANK_LEAK", "CASH_SHORTFALL", "OTHER"];
@@ -237,6 +238,15 @@ export default function ShiftPage() {
           </p>
         </div>
       </Card>
+
+      <HybridAiDiagnosticCard
+        shiftId={current.id}
+        stationName={settings.stationName}
+        country={settings.country}
+        role={role}
+        recon={recon}
+        tanks={tanks}
+      />
 
       {recon.locked ? (
         <InvestigationCard current={current} patch={patch} role={role} />

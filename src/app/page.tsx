@@ -7,6 +7,7 @@ import { computeShiftRecon, geometryCapacityL } from "@/lib/calc";
 import { verifyLedger } from "@/lib/ledger";
 import { DemoButton } from "@/components/DemoVideo";
 import { Alert, Card, PageHeader, fmt, useT } from "@/components/ui";
+import { HybridAiDiagnosticCard } from "@/components/HybridAiDiagnosticCard";
 
 export default function DashboardPage() {
   const { state } = useStore();
@@ -71,6 +72,17 @@ export default function DashboardPage() {
           })}
         </div>
       </Card>
+
+      {openShift && recon ? (
+        <HybridAiDiagnosticCard
+          shiftId={openShift.id}
+          stationName={settings.stationName}
+          country={settings.country}
+          role={settings.role}
+          recon={recon}
+          tanks={tanks}
+        />
+      ) : null}
 
       <Card title={t("ledgerIntegrity")}>
         {integrity.ok ? (
