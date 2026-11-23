@@ -16,14 +16,18 @@ export default function TanksPage() {
   const tank = tanks.find((x) => x.id === tankId) ?? tanks[0];
 
   const [cm, setCm] = useState<number>(0);
-  const [waterCm, setWaterCm] = useState<string>("");
+  const [waterMm, setWaterMm] = useState<string>("");
   const [dipstickType, setDipstickType] = useState<DipstickType>("wooden");
   const [saved, setSaved] = useState<string | null>(null);
 
+  const waterThresholdMm = settings.waterThresholdMm ?? 15;
+  const waterMmNum = waterMm === "" ? null : Number(waterMm);
+  const waterCmNum = waterMmNum !== null && Number.isFinite(waterMmNum) ? waterMmNum / 10 : null;
+
   const litres = useMemo(() => (tank ? litresFromCm(tank, cm) : 0), [tank, cm]);
   const waterLitres = useMemo(
-    () => (tank && waterCm !== "" ? litresFromCm(tank, Number(waterCm)) : null),
-    [tank, waterCm]
+    () => (tank && waterCmNum !== null ? litresFromCm(tank, waterCmNum) : null),
+    [tank, waterCmNum]
   );
   const limit = tank ? maxCm(tank) : 0;
   const outOfRange = tank ? cm < 0 || cm > limit : false;
@@ -36,7 +40,7 @@ export default function TanksPage() {
       tankId: tank.id,
       cm,
       litres,
-      waterCm: waterCm === "" ? null : Number(waterCm),
+      waterCm: waterCmNum,
       waterLitres,
       kind: "DIP" as const,
       dipstickType,
@@ -49,7 +53,7 @@ export default function TanksPage() {
         s.ledger,
         settings.role,
         "DIP_RECORDED",
-        `${tank.name}: ${cm} cm = ${litres} L [${dipstickType}]`,
+        `${tank.name}: ${cm} cm = ${litres} L${waterMmNum ? ` | water ${waterMmNum} mm` : ""} [${dipstickType}]`,
         reading
       ),
     }));
@@ -61,17 +65,26 @@ export default function TanksPage() {
     mutate((s) => ({
       ...s,
       tanks: s.tanks.map((x) => (x.id === tank.id ? { ...x, ...tankPatch } : x)),
-      ledger: appendLedger(s.ledger, settings.role, "TANK_CONFIG", `${tank.name} calibration updated`, tankPatch),
+      ledger: appendLedger(
+        s.ledger,
+        settings.role,
+        "TANK_CONFIG",
+        `${tank.name} calibration updated`,
+        tankPatch
+      ),
     }));
   };
 
   return (
     <div className="space-y-4">
-      <PageHeader title={t("tanksTitle")} sub={t("tanksSub")} />
+      <PageHeader
+        title={t("tanksTitle")}
+        sub={`${settings.siteCode} · ${settings.stationName} · ${settings.brandNetwork} · Mgr: ${settings.section162Manager} — ${t("tanksSub")}`}
+      />
 
       <Alert tone="warn">
         <span className="flex items-start gap-2">
-          <AlertTriangle size={24} aria-hidden="true" className="mt-0.5 shrink-0 text-amber-700" />
+          <AlertTriangle size={24} aria-hidden="true" className="mt-0.5 shrink-0 text-amber-400" />
           <span>
             <strong>{t("safetyTitle")}</strong>
             <br />
@@ -95,27 +108,53 @@ export default function TanksPage() {
 
           <DipstickField value={dipstickType} onChange={setDipstickType} />
 
-          <NumberField label={t("dipCm")} value={cm} onChange={setCm} step="0.1" hint={`0 – ${limit} cm`} />
+          <NumberField
+            label={t("dipCm")}
+            value={cm}
+            onChange={setCm}
+            step="0.1"
+            hint={`0 – ${limit} cm`}
+          />
           {outOfRange ? <Alert tone="danger">0 – {limit} cm</Alert> : null}
 
           <label className="block">
-            <span className="label">{t("waterCm")}</span>
-            <input className="field" type="number" inputMode="decimal" step="0.1" min={0} value={waterCm} onChange={(e) => setWaterCm(e.target.value)} />
+            <span className="label">{t("waterMm")} (optional)</span>
+            <input
+              className="field"
+              type="number"
+              inputMode="decimal"
+              step="0.5"
+              min={0}
+              placeholder="e.g. 0"
+              value={waterMm}
+              onChange={(e) => setWaterMm(e.target.value)}
+            />
           </label>
 
-          <div className="rounded-xl border-2 border-primary bg-white p-4">
+          {waterMmNum !== null && waterMmNum > waterThresholdMm ? (
+            <Alert tone="danger">
+              Trigger 3 Water Ingress Alert: {waterMmNum} mm exceeds {waterThresholdMm} mm safe threshold.
+            </Alert>
+          ) : null}
+
+          <div className="rounded-xl border border-amber-500/50 bg-slate-950 p-4">
             <p className="text-base font-bold text-muted">{t("litres")}</p>
-            <p className="break-words text-4xl font-extrabold text-ink sm:text-5xl" data-testid="litres">
+            <p className="break-words font-mono text-4xl font-extrabold text-emerald-300 sm:text-5xl" data-testid="litres">
               {fmt(litres)} L
             </p>
             {waterLitres !== null ? (
               <p className="mt-1 text-base font-bold text-muted">
-                {t("waterCm")}: {fmt(waterLitres)} L
+                Water volume estimate: {fmt(waterLitres)} L ({waterMmNum} mm)
               </p>
             ) : null}
           </div>
 
-          <button type="button" className="btn w-full" onClick={recordDip} disabled={!tank || outOfRange}>
+          <button
+            type="button"
+            className="btn w-full"
+            onClick={recordDip}
+            disabled={!tank || outOfRange}
+          >
             <Save size={20} aria-hidden="true" />
             {t("recordDip")}
           </button>
@@ -125,7 +164,12 @@ export default function TanksPage() {
 
       {tank ? (
         <Card title={`${tank.name} · ${t("capacity")}`}>
-          <CalibrationEditor key={tank.id} tank={tank} onSave={updateCalibration} capacityText={t("capacityWarn")} />
+          <CalibrationEditor
+            key={tank.id}
+            tank={tank}
+            onSave={updateCalibration}
+            capacityText={t("capacityWarn")}
+          />
         </Card>
       ) : null}
     </div>
@@ -144,10 +188,16 @@ function CalibrationEditor({
   const { t } = useT();
   const [mode, setMode] = useState<Calibration["mode"]>(tank.calibration.mode);
   const [capacityL, setCapacityL] = useState<number>(tank.capacityL);
-  const [diameterCm, setDiameterCm] = useState<number>(tank.calibration.mode === "geometry" ? tank.calibration.diameterCm : 200);
-  const [lengthCm, setLengthCm] = useState<number>(tank.calibration.mode === "geometry" ? tank.calibration.lengthCm : 955);
+  const [diameterCm, setDiameterCm] = useState<number>(
+    tank.calibration.mode === "geometry" ? tank.calibration.diameterCm : 200
+  );
+  const [lengthCm, setLengthCm] = useState<number>(
+    tank.calibration.mode === "geometry" ? tank.calibration.lengthCm : 955
+  );
   const [chartText, setChartText] = useState<string>(
-    tank.calibration.mode === "table" ? tank.calibration.points.map((p) => `${p.cm},${p.litres}`).join("\n") : "0,0\n100,30000"
+    tank.calibration.mode === "table"
+      ? tank.calibration.points.map((p) => `${p.cm},${p.litres}`).join("\n")
+      : "0,0\n100,30000"
   );
   const [errors, setErrors] = useState<string[]>([]);
 
@@ -155,10 +205,13 @@ function CalibrationEditor({
     ...tank,
     capacityL,
     calibration:
-      mode === "geometry" ? { mode, diameterCm, lengthCm } : { mode, points: parseChart(chartText).points },
+      mode === "geometry"
+        ? { mode, diameterCm, lengthCm }
+        : { mode, points: parseChart(chartText).points },
   };
   const geo = geometryCapacityL(draft);
-  const capWarn = geo !== null && capacityL > 0 && Math.abs(geo - capacityL) / capacityL > 0.01;
+  const capWarn =
+    geo !== null && capacityL > 0 && Math.abs(geo - capacityL) / capacityL > 0.01;
 
   const save = () => {
     if (mode === "table") {
@@ -176,8 +229,12 @@ function CalibrationEditor({
     <div className="space-y-3">
       <label className="block">
         <span className="label">Calibration</span>
-        <select className="field" value={mode} onChange={(e) => setMode(e.target.value as Calibration["mode"])}>
-          <option value="geometry">Horizontal cylinder (diameter & length)</option>
+        <select
+          className="field"
+          value={mode}
+          onChange={(e) => setMode(e.target.value as Calibration["mode"])}
+        >
+          <option value="geometry">Horizontal cylinder (diameter &amp; length)</option>
           <option value="table">Custom strapping chart (cm,litres)</option>
         </select>
       </label>
@@ -191,12 +248,20 @@ function CalibrationEditor({
         </div>
       ) : (
         <label className="block">
-          <span className="label">Chart (one "cm,litres" per line)</span>
-          <textarea className="field min-h-[160px] font-mono text-base" value={chartText} onChange={(e) => setChartText(e.target.value)} />
+          <span className="label">Chart (one &quot;cm,litres&quot; per line)</span>
+          <textarea
+            className="field min-h-[160px] font-mono text-base"
+            value={chartText}
+            onChange={(e) => setChartText(e.target.value)}
+          />
         </label>
       )}
 
-      {capWarn ? <Alert tone="danger">{capacityText}: {fmt(geo, 0)} L</Alert> : null}
+      {capWarn ? (
+        <Alert tone="danger">
+          {capacityText}: {fmt(geo, 0)} L
+        </Alert>
+      ) : null}
       {errors.length ? (
         <Alert tone="danger">
           {t("chartErrors")}: {errors.join("; ")}

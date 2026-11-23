@@ -54,7 +54,11 @@ export default function LedgerPage() {
       <PageHeader title={t("ledgerTitle")} sub={t("ledgerSub")} />
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <button type="button" className="btn w-full" onClick={() => setResult(verifyLedger(state.ledger))}>
+        <button
+          type="button"
+          className="btn w-full"
+          onClick={() => setResult(verifyLedger(state.ledger))}
+        >
           <ShieldCheck size={20} aria-hidden="true" />
           {t("verify")}
         </button>
@@ -90,16 +94,16 @@ export default function LedgerPage() {
                   <span
                     className={
                       dipType === "aluminium"
-                        ? "rounded-full border border-amber-600 bg-amber-50 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-900"
-                        : "rounded-full border border-green-700 bg-green-50 px-2.5 py-0.5 text-xs font-extrabold uppercase text-green-900"
+                        ? "rounded-full border border-amber-500/60 bg-amber-950/60 px-2.5 py-0.5 text-xs font-extrabold uppercase text-amber-200"
+                        : "rounded-full border border-emerald-500/60 bg-emerald-950/60 px-2.5 py-0.5 text-xs font-extrabold uppercase text-emerald-200"
                     }
                   >
                     {dipType === "aluminium" ? "Dipstick: Aluminium (Legacy)" : "Dipstick: Wooden"}
                   </span>
                 ) : null}
               </div>
-              <p className="text-lg font-extrabold">{e.type}</p>
-              <p className="text-base">{e.summary}</p>
+              <p className="text-lg font-extrabold text-amber-300">{e.type}</p>
+              <p className="text-base text-slate-100">{e.summary}</p>
               <p className="mt-1 break-all font-mono text-xs text-muted">sha256: {e.hash}</p>
             </li>
           );

@@ -36,13 +36,13 @@ export function Card({ title, children, className = "" }: { title?: string; chil
 export function Alert({ tone, children }: { tone: "danger" | "warn" | "ok" | "info"; children: ReactNode }) {
   const cls =
     tone === "danger"
-      ? "border-red-700 bg-red-50 text-red-900"
+      ? "border-red-500/60 bg-red-950/60 text-red-100"
       : tone === "warn"
-      ? "border-amber-600 bg-amber-50 text-amber-950"
+      ? "border-amber-500/60 bg-amber-950/60 text-amber-100"
       : tone === "ok"
-      ? "border-green-700 bg-green-50 text-green-900"
-      : "border-slate-500 bg-white text-ink";
-  return <div className={`break-words rounded-xl border-2 p-3 text-base font-semibold sm:text-lg ${cls}`}>{children}</div>;
+      ? "border-emerald-500/60 bg-emerald-950/60 text-emerald-100"
+      : "border-slate-600 bg-slate-800/80 text-slate-100";
+  return <div className={`break-words rounded-xl border p-3 text-base font-semibold sm:text-lg ${cls}`}>{children}</div>;
 }
 
 export function DipstickField({
@@ -72,10 +72,10 @@ export function DipstickField({
       {value === "aluminium" ? (
         <Alert tone="warn">
           <span className="flex items-start gap-2 text-base">
-            <AlertTriangle size={22} aria-hidden="true" className="mt-0.5 shrink-0 text-amber-700" />
+            <AlertTriangle size={22} aria-hidden="true" className="mt-0.5 shrink-0 text-amber-400" />
             <span>
               <strong className="block">{t("transitionAdvisoryTitle")}</strong>
-              <span className="font-normal">{t("transitionAdvisoryBody")}</span>
+              <span className="font-normal text-amber-100/90">{t("transitionAdvisoryBody")}</span>
             </span>
           </span>
         </Alert>
@@ -91,6 +91,7 @@ export function NumberField({
   step = "any",
   min = 0,
   hint,
+  disabled = false,
 }: {
   label: string;
   value: number | string;
@@ -98,6 +99,7 @@ export function NumberField({
   step?: string;
   min?: number;
   hint?: string;
+  disabled?: boolean;
 }) {
   return (
     <label className="block">
@@ -108,8 +110,12 @@ export function NumberField({
         inputMode="decimal"
         step={step}
         min={min}
+        disabled={disabled}
         value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
+        onChange={(e) => {
+          const raw = e.target.value;
+          onChange(raw === "" ? 0 : Number(raw));
+        }}
       />
       {hint ? <span className="mt-1 block text-sm text-muted">{hint}</span> : null}
     </label>

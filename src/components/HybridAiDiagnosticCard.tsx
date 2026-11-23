@@ -49,10 +49,10 @@ export function HybridAiDiagnosticCard({
 
   const badgeStyle =
     result?.path === "ON_DEVICE"
-      ? "border-emerald-700 bg-emerald-50 text-emerald-900"
+      ? "border-emerald-500/60 bg-emerald-950/60 text-emerald-200"
       : result?.path === "CLOUD_FIREBASE_AI"
-      ? "border-indigo-700 bg-indigo-50 text-indigo-900"
-      : "border-amber-700 bg-amber-50 text-amber-950";
+      ? "border-sky-500/60 bg-sky-950/60 text-sky-200"
+      : "border-amber-500/60 bg-amber-950/60 text-amber-200";
 
   const BadgeIcon =
     result?.path === "ON_DEVICE"
@@ -90,7 +90,7 @@ export function HybridAiDiagnosticCard({
         </button>
 
         {result ? (
-          <div className="space-y-2 rounded-xl border-2 border-slate-300 bg-white p-3">
+          <div className="space-y-2 rounded-xl border border-slate-700 bg-slate-950/80 p-3">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span
                 className={`inline-flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-xs font-extrabold uppercase tracking-wide ${badgeStyle}`}
@@ -103,15 +103,14 @@ export function HybridAiDiagnosticCard({
               </span>
             </div>
 
-            <div className="whitespace-pre-line text-sm leading-relaxed text-ink sm:text-base">
+            <div className="whitespace-pre-line text-sm leading-relaxed text-slate-100 sm:text-base">
               {result.summary}
             </div>
 
-            <p className="border-t border-slate-200 pt-2 text-xs text-muted">{result.modelNote}</p>
+            <p className="border-t border-slate-800 pt-2 text-xs text-muted">{result.modelNote}</p>
           </div>
         ) : null}
       </div>
     </Card>
   );
 }
-

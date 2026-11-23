@@ -1,0 +1,17 @@
+{
+  "name": "Service Station Compliance Mini",
+  "short_name": "Station Mini",
+  "description": "Offline-first wetstock reconciliation, adaptive gauging, and environmental early-warning tool for fuel forecourts.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070d1e",
+  "theme_color": "#070d1e",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

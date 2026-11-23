@@ -2,29 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Neutral industrial palette (default). Tenant themes override these variables. */
+/* 1:1 Enterprise / Forecourt Sentinel command-center palette. */
 :root,
 :root[data-tenant="neutral"] {
-  --c-primary: 30 41 59;    /* slate-800 / navy */
-  --c-accent: 245 158 11;   /* amber-500 */
-  --c-ink: 15 23 42;        /* slate-900 */
-  --c-muted: 51 65 85;      /* slate-700 (AA on white) */
-  --c-surface: 255 255 255;
-  --c-canvas: 241 245 249;  /* slate-100 */
-  --c-danger: 185 28 28;    /* red-700 */
-  --c-ok: 21 128 61;        /* green-700 */
+  --c-canvas: 7 13 30;       /* #070d1e Enterprise viewport */
+  --c-surface: 11 19 41;     /* #0b1329 Enterprise panel/sidebar */
+  --c-primary: 59 130 246;   /* #3B82F6 Enterprise hazard.blue */
+  --c-accent: 245 158 11;    /* #F59E0B Enterprise hazard.amber */
+  --c-ink: 248 250 252;      /* #f8fafc */
+  --c-muted: 148 163 184;    /* #94a3b8 */
+  --c-danger: 239 68 68;     /* #EF4444 Enterprise hazard.red */
+  --c-ok: 16 185 129;        /* #10B981 Enterprise hazard.green */
 }
 
 /* Demo client palette. Shown only in the Tenant Theme Configurator. */
 :root[data-tenant="petropal"] {
-  --c-primary: 6 78 59;     /* emerald-900 */
-  --c-accent: 250 204 21;   /* yellow-400 */
-  --c-ink: 2 44 34;
-  --c-muted: 55 65 81;
-  --c-surface: 255 255 255;
-  --c-canvas: 236 253 245;
-  --c-danger: 185 28 28;
-  --c-ok: 21 128 61;
+  --c-canvas: 2 20 15;       /* dark emerald canvas */
+  --c-surface: 6 40 31;      /* deep industrial emerald */
+  --c-primary: 16 185 129;   /* #10b981 emerald-500 */
+  --c-accent: 250 204 21;    /* #facc15 yellow-400 */
+  --c-ink: 240 253 244;      /* #f0fdf4 */
+  --c-muted: 167 243 208;    /* #a7f3d0 */
+  --c-danger: 239 68 68;
+  --c-ok: 16 185 129;
 }
 
 html,
@@ -39,7 +39,7 @@ body {
   font-size: 1.0625rem;
 }
 
-/* Large touch targets for gloved or wet hands at the pump island. */
+/* Large touch targets for gloved or wet hands at the pump island and POS terminals. */
 button,
 a.btn,
 a.btn-ghost,
@@ -50,57 +50,101 @@ input {
   min-height: 48px;
 }
 
+/* Enterprise card surfaces (lightweight, zero heavy blur for legacy POS/mobile performance). */
 .card {
-  @apply min-w-0 rounded-2xl border-2 border-slate-300 bg-surface p-4 shadow-sm;
+  @apply min-w-0 rounded-2xl p-4 shadow-sm;
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.pos-card {
+  background: rgba(30, 41, 59, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pos-card-red {
+  background: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.pos-card-amber {
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.pos-card-blue {
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+}
+
+.pos-card-green {
+  background: rgba(16, 185, 129, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .btn {
-  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-4 py-2 text-center font-bold;
-  background: rgb(var(--c-primary));
-  color: #fff;
+  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-4 py-2 text-center font-bold transition-colors;
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.btn:hover:not(:disabled) {
+  background: #3b82f6;
 }
 
 .btn-accent {
-  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-4 py-2 text-center font-bold;
-  background: rgb(var(--c-accent));
-  color: rgb(var(--c-ink));
+  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl px-4 py-2 text-center font-black transition-colors;
+  background: #f59e0b;
+  color: #020617;
+}
+
+.btn-accent:hover:not(:disabled) {
+  background: #fbbf24;
 }
 
 .btn-ghost {
-  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border-2 px-4 py-2 text-center font-bold;
-  border-color: rgb(var(--c-primary));
-  color: rgb(var(--c-primary));
-  background: rgb(var(--c-surface));
+  @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900/90 px-4 py-2 text-center font-bold text-slate-100 transition-colors hover:border-amber-400 hover:bg-slate-800;
 }
 
 .btn:disabled,
-.btn-accent:disabled {
-  opacity: 0.5;
+.btn-accent:disabled,
+.btn-ghost:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .field {
-  @apply w-full min-w-0 max-w-full rounded-xl border-2 border-slate-400 bg-white px-3 py-2 text-base sm:text-lg;
+  @apply w-full min-w-0 max-w-full rounded-xl border border-slate-700 bg-[#0b1329] px-3 py-2 text-base text-slate-100 placeholder-slate-400 focus:border-amber-400 focus:outline-none sm:text-lg;
+}
+
+select.field option {
+  background-color: #0b1329;
+  color: #f8fafc;
 }
 
 .label {
-  @apply mb-1 block text-sm font-bold sm:text-base;
-  color: rgb(var(--c-ink));
+  @apply mb-1 block text-sm font-bold text-slate-200 sm:text-base;
 }
 
 .badge-locked {
-  @apply inline-block max-w-full break-words rounded-lg px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-white sm:text-sm;
-  background: rgb(var(--c-danger));
+  @apply inline-block max-w-full break-words rounded-lg border px-3 py-1 text-xs font-extrabold uppercase tracking-wide sm:text-sm;
+  background: rgba(239, 68, 68, 0.18);
+  border-color: rgba(239, 68, 68, 0.55);
+  color: #fecaca;
 }
 
 .badge-ok {
-  @apply inline-block max-w-full break-words rounded-lg px-3 py-1 text-xs font-extrabold uppercase tracking-wide text-white sm:text-sm;
-  background: rgb(var(--c-ok));
+  @apply inline-block max-w-full break-words rounded-lg border px-3 py-1 text-xs font-extrabold uppercase tracking-wide sm:text-sm;
+  background: rgba(16, 185, 129, 0.18);
+  border-color: rgba(16, 185, 129, 0.55);
+  color: #a7f3d0;
 }
 
 .badge-open {
-  @apply inline-block max-w-full break-words rounded-lg px-3 py-1 text-xs font-extrabold uppercase tracking-wide sm:text-sm;
-  background: rgb(var(--c-accent));
-  color: rgb(var(--c-ink));
+  @apply inline-block max-w-full break-words rounded-lg border px-3 py-1 text-xs font-extrabold uppercase tracking-wide sm:text-sm;
+  background: rgba(245, 158, 11, 0.18);
+  border-color: rgba(245, 158, 11, 0.55);
+  color: #fde68a;
 }
 
 .no-scrollbar {

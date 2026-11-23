@@ -1,7 +1,12 @@
 import type { Lang } from "./types";
 
 export type L3 = { en: string; sw: string; rw: string };
-export const tr = (v: L3, lang: Lang): string => v[lang];
+
+export const tr = (v: L3, lang: Lang | "en"): string => {
+  if (lang === "sw") return v.sw;
+  if (lang === "rw") return v.rw;
+  return v.en;
+};
 
 export interface Drill {
   id: string;

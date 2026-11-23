@@ -6,14 +6,18 @@ import { StoreProvider } from "@/lib/store";
 export const metadata: Metadata = {
   title: "Service Station Compliance Mini",
   description:
-    "Wetstock, calibrated dipstick, shift and drill compliance for East African forecourts. Offline-capable, append-only audit ledger.",
+    "Offline-first wetstock reconciliation, adaptive gauging, and environmental early-warning support tool for fuel forecourts.",
   applicationName: "service-station-compliance-mini",
+  manifest: "/manifest.json",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#1e293b",
+  themeColor: "#070d1e",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

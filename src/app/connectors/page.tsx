@@ -4,32 +4,10 @@ import { useState } from "react";
 import { Download, Upload, Send } from "lucide-react";
 import { useStore } from "@/lib/store";
 import { appendLedger } from "@/lib/ledger";
+import { IntegrationHubPanel } from "@/components/IntegrationHubPanel";
+import { SiteSetupBulkImportPanel } from "@/components/SiteSetupBulkImportPanel";
 import { fmt, Alert, Card, PageHeader, useT, FOOTER_TEXT } from "@/components/ui";
 import type { Ticket } from "@/lib/types";
-
-const TITAN_EXAMPLE = {
-  stationId: "EA-PILOT-01",
-  date: "2026-11-18",
-  readings: [
-    { tankId: "T1", closingL: 26880, waterCm: 0 },
-    { tankId: "T2", closingL: 16205, waterCm: 0 },
-  ],
-};
-const OMNICOMM_EXAMPLE = {
-  stationId: "EA-PILOT-01",
-  waybillNo: "WB-44021",
-  tankId: "T1",
-  dispatchL: 10000,
-  gpsArrivalIso: "2026-11-18T06:42:00Z",
-};
-const OMIS_EXAMPLE = {
-  stationId: "EA-PILOT-01",
-  ticketType: "WETSTOCK_VARIANCE",
-  severity: "HIGH",
-  asset: "Tank 1",
-  detail: "Variance 42 L exceeds volumetric tolerance on closed shift",
-  raisedAt: "2026-11-18T18:05:00Z",
-};
 
 function csvCell(v: string | number): string {
   const s = String(v);
@@ -52,6 +30,31 @@ export default function ConnectorsPage() {
   const [csvRows, setCsvRows] = useState<{ tankId: string; closingL: number; date: string }[]>([]);
   const [csvErrors, setCsvErrors] = useState<string[]>([]);
   const [omisMsg, setOmisMsg] = useState<string | null>(null);
+
+  const siteCode = state.settings.siteCode || "SITE-01";
+  const siteTitanExample = {
+    stationId: siteCode,
+    date: "2026-11-18",
+    readings: [
+      { tankId: "T1", closingL: 26880, waterCm: 0 },
+      { tankId: "T2", closingL: 16205, waterCm: 0 },
+    ],
+  };
+  const siteOmnicommExample = {
+    stationId: siteCode,
+    waybillNo: "WB-44021",
+    tankId: "T1",
+    dispatchL: 10000,
+    gpsArrivalIso: "2026-11-18T06:42:00Z",
+  };
+  const siteOmisExample = {
+    stationId: siteCode,
+    ticketType: "WETSTOCK_VARIANCE",
+    severity: "HIGH",
+    asset: state.tanks[0]?.name ?? "Tank 1",
+    detail: `Variance 42 L exceeds volumetric tolerance on closed shift (${state.settings.stationName})`,
+    raisedAt: "2026-11-18T18:05:00Z",
+  };
 
   const exportTemplate = () => {
     const rows = [
@@ -99,7 +102,7 @@ export default function ConnectorsPage() {
     const openAlerts = state.shifts.filter((s) => s.status === "CLOSED");
     const detail = `Escalation from ${state.settings.stationName}: ${openAlerts.length} closed shift(s) reviewed`;
     const body = {
-      stationId: "EA-PILOT-01",
+      stationId: siteCode,
       ticketType: "WETSTOCK_VARIANCE",
       severity: "HIGH",
       asset: state.tanks[0]?.name ?? "Tank",
@@ -113,7 +116,8 @@ export default function ConnectorsPage() {
         body: JSON.stringify(body),
       });
       const json = (await res.json()) as { status?: string; errors?: string[] };
-      const status: Ticket["status"] = json.status === "forwarded" ? "FORWARDED" : json.status === "local_only" ? "LOCAL_ONLY" : "FAILED";
+      const status: Ticket["status"] =
+        json.status === "forwarded" ? "FORWARDED" : json.status === "local_only" ? "LOCAL_ONLY" : "FAILED";
       const ticket: Ticket = {
         id: `TK-${Date.now().toString(36).toUpperCase()}`,
         ts: body.raisedAt,
@@ -140,8 +144,12 @@ export default function ConnectorsPage() {
     <div className="space-y-4">
       <PageHeader title={t("connectorsTitle")} sub={t("connectorsSub")} />
 
+      <SiteSetupBulkImportPanel compact />
+
+      <IntegrationHubPanel />
+
       <Card title={t("legacyMode")}>
-        <p className="mb-3 text-lg">{t("legacyBody")}</p>
+        <p className="mb-3 text-base text-slate-200 sm:text-lg">{t("legacyBody")}</p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <button type="button" className="btn-ghost" onClick={exportTemplate}>
             <Download size={20} aria-hidden="true" />
@@ -161,12 +169,12 @@ export default function ConnectorsPage() {
             />
           </label>
         </div>
-        {csvErrors.length ? <Alert tone="danger">{csvErrors.join("; ")}</Alert> : null}
+        {csvErrors.length ? <div className="mt-3"><Alert tone="danger">{csvErrors.join("; ")}</Alert></div> : null}
         {csvRows.length ? (
           <div className="mt-3 overflow-x-auto">
             <table className="w-full min-w-[420px] text-left text-base">
               <thead>
-                <tr className="border-b-2 border-slate-500">
+                <tr className="border-b border-slate-700 text-slate-300">
                   <th className="py-2">Tank</th>
                   <th>ATG (L)</th>
                   <th>{t("atgCheck")}</th>
@@ -177,7 +185,7 @@ export default function ConnectorsPage() {
                   const dip = latestDip(r.tankId);
                   const pct = dip ? ((r.closingL - dip) / dip) * 100 : null;
                   return (
-                    <tr key={i} className="border-b border-slate-300">
+                    <tr key={i} className="border-b border-slate-800">
                       <td className="py-2 font-bold">{r.tankId}</td>
                       <td>{fmt(r.closingL)}</td>
                       <td>{pct === null ? "—" : `${pct.toFixed(2)}%`}</td>
@@ -191,33 +199,49 @@ export default function ConnectorsPage() {
       </Card>
 
       <Card title={t("titanTitle")}>
-        <p className="break-words text-base font-bold">{t("endpoint")}: <code className="break-all">POST /api/v1/connectors/titan-cloud</code></p>
+        <p className="break-words text-base font-bold">
+          {t("endpoint")}: <code className="break-all text-amber-300">POST /api/v1/connectors/titan-cloud</code>
+        </p>
         <p className="mb-2 text-sm text-muted">Daily ATG closing volume (L) and water level, plus CSV importer above.</p>
-        <pre className="max-w-full overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(TITAN_EXAMPLE, null, 2)}</pre>
+        <pre className="max-w-full overflow-x-auto rounded-lg border border-slate-700 bg-slate-950 p-3 text-sm text-emerald-200">
+          {JSON.stringify(siteTitanExample, null, 2)}
+        </pre>
       </Card>
 
       <Card title={t("omnicommTitle")}>
-        <p className="break-words text-base font-bold">{t("endpoint")}: <code className="break-all">POST /api/v1/connectors/omnicomm</code></p>
+        <p className="break-words text-base font-bold">
+          {t("endpoint")}: <code className="break-all text-amber-300">POST /api/v1/connectors/omnicomm</code>
+        </p>
         <p className="mb-2 text-sm text-muted">Inbound tanker dispatch volume (L) and GPS arrival, matched to pre- and post-drop dips.</p>
-        <pre className="max-w-full overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(OMNICOMM_EXAMPLE, null, 2)}</pre>
+        <pre className="max-w-full overflow-x-auto rounded-lg border border-slate-700 bg-slate-950 p-3 text-sm text-emerald-200">
+          {JSON.stringify(siteOmnicommExample, null, 2)}
+        </pre>
       </Card>
 
       <Card title={t("omisTitle")}>
-        <p className="break-words text-base font-bold">{t("endpoint")}: <code className="break-all">POST /api/v1/connectors/omis-4</code></p>
+        <p className="break-words text-base font-bold">
+          {t("endpoint")}: <code className="break-all text-amber-300">POST /api/v1/connectors/omis-4</code>
+        </p>
         <p className="mb-2 text-sm text-muted">Raised automatically for pump meter drift, UST water ingress or unresolved variance.</p>
-        <pre className="mb-3 max-w-full overflow-x-auto rounded-lg bg-slate-900 p-3 text-sm text-slate-100">{JSON.stringify(OMIS_EXAMPLE, null, 2)}</pre>
+        <pre className="mb-3 max-w-full overflow-x-auto rounded-lg border border-slate-700 bg-slate-950 p-3 text-sm text-emerald-200">
+          {JSON.stringify(siteOmisExample, null, 2)}
+        </pre>
         <button type="button" className="btn w-full" onClick={raiseTicket}>
           <Send size={20} aria-hidden="true" />
           {t("escalate")}
         </button>
-        {omisMsg ? <div className="mt-3"><Alert tone={omisMsg === "FAILED" ? "danger" : "info"}>{omisMsg}</Alert></div> : null}
+        {omisMsg ? (
+          <div className="mt-3">
+            <Alert tone={omisMsg === "FAILED" ? "danger" : "info"}>{omisMsg}</Alert>
+          </div>
+        ) : null}
         <h3 className="mt-4 text-lg font-extrabold">{t("ticketsTitle")}</h3>
         {state.tickets.length === 0 ? (
           <p className="text-muted">{t("noTickets")}</p>
         ) : (
           <ul className="mt-2 space-y-2">
             {state.tickets.map((tk) => (
-              <li key={tk.id} className="rounded-lg bg-white p-2 text-base">
+              <li key={tk.id} className="rounded-lg border border-slate-700 bg-slate-950/70 p-2.5 text-base">
                 <strong>{tk.id}</strong> · {tk.severity} · {tk.status} · {tk.detail}
               </li>
             ))}

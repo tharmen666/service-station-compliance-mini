@@ -34,13 +34,19 @@ const INSTALL_STEPS: { titleKey: TKey; bodyKey: TKey }[] = [
   { titleKey: "guideInstall4Title", bodyKey: "guideInstall4Body" },
 ];
 
-const USAGE_STEPS: { titleKey: TKey; bodyKey: TKey; href: string; ctaKey: TKey; icon: typeof Droplets }[] = [
+const USAGE_STEPS: {
+  titleKey: TKey;
+  bodyKey: TKey;
+  href: string;
+  ctaKey: TKey;
+  icon: typeof Droplets;
+}[] = [
   { titleKey: "guideUsage1Title", bodyKey: "guideUsage1Body", href: "/tanks", ctaKey: "navTanks", icon: Droplets },
-  { titleKey: "guideUsage2Title", bodyKey: "guideUsage2Body", href: "/tanks", ctaKey: "navTanks", icon: Droplets },
+  { titleKey: "guideUsage2Title", bodyKey: "guideUsage2Body", href: "/shift", ctaKey: "navShift", icon: ClipboardList },
   { titleKey: "guideUsage3Title", bodyKey: "guideUsage3Body", href: "/shift", ctaKey: "navShift", icon: ClipboardList },
-  { titleKey: "guideUsage4Title", bodyKey: "guideUsage4Body", href: "/shift", ctaKey: "navShift", icon: ClipboardList },
+  { titleKey: "guideUsage4Title", bodyKey: "guideUsage4Body", href: "/shift", ctaKey: "navShift", icon: ShieldCheck },
   { titleKey: "guideUsage5Title", bodyKey: "guideUsage5Body", href: "/drills", ctaKey: "navDrills", icon: GraduationCap },
-  { titleKey: "guideUsage6Title", bodyKey: "guideUsage6Body", href: "/ledger", ctaKey: "navLedger", icon: ScrollText },
+  { titleKey: "guideUsage6Title", bodyKey: "guideUsage6Body", href: "/connectors", ctaKey: "navConnectors", icon: ScrollText },
 ];
 
 export default function GuidePage() {
@@ -68,11 +74,11 @@ export default function GuidePage() {
       <section id="executive" className="scroll-mt-36">
         <Card>
           <div className="mb-3 flex items-center gap-2">
-            <BookOpen size={22} aria-hidden="true" className="shrink-0 text-primary" />
+            <BookOpen size={22} aria-hidden="true" className="shrink-0 text-amber-400" />
             <h2 className="text-xl font-extrabold text-ink">{t("guideExecTitle")}</h2>
           </div>
-          <div className="space-y-3 text-base leading-relaxed text-ink sm:text-lg">
-            <p className="font-semibold">{t("guideExecP1")}</p>
+          <div className="space-y-3 text-base leading-relaxed text-slate-200 sm:text-lg">
+            <p className="font-semibold text-slate-50">{t("guideExecP1")}</p>
             <p>{t("guideExecP2")}</p>
           </div>
         </Card>
@@ -81,19 +87,23 @@ export default function GuidePage() {
       <section id="features" className="scroll-mt-36">
         <Card>
           <div className="mb-3 flex items-center gap-2">
-            <CheckCircle2 size={22} aria-hidden="true" className="shrink-0 text-primary" />
+            <CheckCircle2 size={22} aria-hidden="true" className="shrink-0 text-emerald-400" />
             <h2 className="text-xl font-extrabold text-ink">{t("guideFeaturesTitle")}</h2>
           </div>
           <ul className="space-y-3">
             {FEATURES.map((f) => {
               const Icon = f.icon;
               return (
-                <li key={f.titleKey} className="rounded-xl border-2 border-slate-200 bg-white p-3">
+                <li key={f.titleKey} className="rounded-xl border border-slate-700 bg-slate-950/70 p-3">
                   <div className="flex items-start gap-2.5">
-                    <Icon size={20} aria-hidden="true" className="mt-1 shrink-0 text-primary" />
+                    <Icon size={20} aria-hidden="true" className="mt-1 shrink-0 text-amber-400" />
                     <div className="min-w-0">
-                      <h3 className="text-base font-extrabold leading-snug text-ink sm:text-lg">{t(f.titleKey)}</h3>
-                      <p className="mt-1 text-sm leading-relaxed text-muted sm:text-base">{t(f.bodyKey)}</p>
+                      <h3 className="text-base font-extrabold leading-snug text-ink sm:text-lg">
+                        {t(f.titleKey)}
+                      </h3>
+                      <p className="mt-1 text-sm leading-relaxed text-muted sm:text-base">
+                        {t(f.bodyKey)}
+                      </p>
                     </div>
                   </div>
                 </li>
@@ -106,19 +116,23 @@ export default function GuidePage() {
       <section id="install" className="scroll-mt-36">
         <Card>
           <div className="mb-3 flex items-center gap-2">
-            <Download size={22} aria-hidden="true" className="shrink-0 text-primary" />
+            <Download size={22} aria-hidden="true" className="shrink-0 text-amber-400" />
             <h2 className="text-xl font-extrabold text-ink">{t("guideInstallTitle")}</h2>
           </div>
           <ol className="space-y-3">
             {INSTALL_STEPS.map((s, idx) => (
-              <li key={s.titleKey} className="rounded-xl border-2 border-slate-200 bg-white p-3">
+              <li key={s.titleKey} className="rounded-xl border border-slate-700 bg-slate-950/70 p-3">
                 <div className="flex items-start gap-3">
                   <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary text-sm font-extrabold text-white">
                     {idx + 1}
                   </span>
                   <div className="min-w-0">
-                    <h3 className="text-base font-extrabold leading-snug text-ink sm:text-lg">{t(s.titleKey)}</h3>
-                    <p className="mt-1 break-words text-sm leading-relaxed text-muted sm:text-base">{t(s.bodyKey)}</p>
+                    <h3 className="text-base font-extrabold leading-snug text-ink sm:text-lg">
+                      {t(s.titleKey)}
+                    </h3>
+                    <p className="mt-1 break-words text-sm leading-relaxed text-muted sm:text-base">
+                      {t(s.bodyKey)}
+                    </p>
                   </div>
                 </div>
               </li>
@@ -140,22 +154,26 @@ export default function GuidePage() {
       <section id="usage" className="scroll-mt-36">
         <Card>
           <div className="mb-3 flex items-center gap-2">
-            <Wrench size={22} aria-hidden="true" className="shrink-0 text-primary" />
+            <Wrench size={22} aria-hidden="true" className="shrink-0 text-amber-400" />
             <h2 className="text-xl font-extrabold text-ink">{t("guideUsageTitle")}</h2>
           </div>
           <ol className="space-y-3">
             {USAGE_STEPS.map((s, idx) => (
-              <li key={s.titleKey} className="rounded-xl border-2 border-slate-200 bg-white p-3">
+              <li key={s.titleKey} className="rounded-xl border border-slate-700 bg-slate-950/70 p-3">
                 <div className="flex items-start gap-3">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent text-sm font-extrabold text-ink">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500 text-sm font-extrabold text-slate-950">
                     {idx + 1}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-base font-extrabold leading-snug text-ink sm:text-lg">{t(s.titleKey)}</h3>
-                    <p className="mt-1 break-words text-sm leading-relaxed text-muted sm:text-base">{t(s.bodyKey)}</p>
+                    <h3 className="text-base font-extrabold leading-snug text-ink sm:text-lg">
+                      {t(s.titleKey)}
+                    </h3>
+                    <p className="mt-1 break-words text-sm leading-relaxed text-muted sm:text-base">
+                      {t(s.bodyKey)}
+                    </p>
                     <Link
                       href={s.href}
-                      className="mt-2 inline-flex min-h-[44px] items-center gap-1.5 text-sm font-extrabold text-primary underline underline-offset-2"
+                      className="mt-2 inline-flex min-h-[44px] items-center gap-1.5 text-sm font-extrabold text-amber-300 underline underline-offset-2"
                     >
                       {t(s.ctaKey)}
                       <ArrowRight size={16} aria-hidden="true" />
@@ -170,4 +188,3 @@ export default function GuidePage() {
     </div>
   );
 }
-
